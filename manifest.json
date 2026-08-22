@@ -1,0 +1,10 @@
+{
+	"id": "project-tracker",
+	"name": "Project Tracker",
+	"version": "1.0.0",
+	"minAppVersion": "1.13.0",
+	"description": "Project tracker inspired by Atlassian and GitHub's own project tooling. Display kanban boards and table views. Compatible with Obsidian Sync, plugin works with local notes.",
+	"author": "dev-cadet",
+	"authorUrl": "https://github.com/dev-cadet",
+	"isDesktopOnly": false
+}

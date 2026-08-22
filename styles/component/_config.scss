@@ -1,0 +1,98 @@
+// Configuration sections and rows.
+//
+// ConfigSection and ConfigItem are built entirely from Obsidian's own settings
+// markup — .setting-group, .setting-items, .setting-item — so the panel, its
+// dividers, the row padding and the label typography all come from the app.
+// This is the only rule they need.
+
+// The panel only pads its .setting-item children, so a section built from
+// something else has to take that padding by hand. Same tokens, same result.
+.pt-config-block {
+	padding: var(--setting-items-padding-y) var(--setting-items-padding-x);
+}
+
+// ChildPosition: bottom.
+//
+// Obsidian stacks a settings row only inside `@container (max-width: 400px)`,
+// which a dialog this wide never matches — so the app's own stacked treatment
+// is repeated here without the query. Buttons are the one deliberate
+// difference: Obsidian stretches them to full width along with inputs, which
+// would turn a row of label chips into a stack of full-width bars.
+// ChildPosition: bottom and right together. .setting-item is already a flex
+// row, so a child allowed to take the full basis wraps onto a line of its own
+// under both the label and the control.
+.pt-item-has-footer {
+	flex-wrap: wrap;
+}
+
+.pt-item-footer {
+	flex: 1 0 100%;
+	margin-top: var(--size-2-2);
+	min-width: 0;
+}
+
+// A row whose control sits under its label rather than beside it.
+//
+// .pt-item-stacked is added by hand in a dialog — see ui/settingRow.ts. The
+// settings tab cannot: it declares its rows rather than building them, and a
+// definition carries no class of its own, so the group's `cls` is the hook and
+// every row inside it is stacked.
+.pt-item-stacked,
+.pt-status-template .setting-item {
+	flex-direction: column;
+
+	.setting-item-info {
+		margin-inline-end: 0;
+		align-self: flex-start;
+	}
+
+	.setting-item-control {
+		width: 100%;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
+
+	// Fills the row alone, shares it when something sits alongside — the name
+	// fields carry an icon picker beside the input. `width: 100%`, which is what
+	// Obsidian uses here, would push that onto a line of its own.
+	.setting-item-control input:not([type="checkbox"]),
+	.setting-item-control select,
+	.setting-item-control textarea {
+		flex: 1 1 auto;
+		min-width: 0;
+		max-width: 100%;
+	}
+}
+
+// A SettingGroup whose heading carries a control on its right.
+//
+// The group's header is .setting-item-heading holding .setting-item-name and
+// .setting-item-control directly, with no .setting-item-info — which is the part
+// that normally grows and pushes the control to the end of the row. Nothing in
+// this header grows, so the name is told to and spaces its own children apart.
+//
+// The end margin is the app's .setting-item > *:first-child rule, meant to hold
+// a name off a control beside it. The control here is empty, so it would only
+// stop the right-hand text short of the edge the heading text starts from.
+.pt-group-split > .setting-item-heading > .setting-item-name {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--size-4-2);
+	margin-inline-end: 0;
+}
+
+// Reads as a link, not a heading: the heading's own size and weight would make
+// it a second title.
+.pt-group-advanced {
+	color: var(--text-accent);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-normal);
+	cursor: var(--cursor);
+
+	&:hover {
+		color: var(--text-accent-hover);
+	}
+}

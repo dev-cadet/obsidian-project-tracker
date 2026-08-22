@@ -1,0 +1,26 @@
+// Entry point. Compiled to ../styles.css by esbuild.config.mjs;
+// that file is a build artifact, so edit these partials instead.
+//
+// Partials are .scss — a superset of CSS — so plain CSS pastes in unchanged.
+
+
+@use "component/view-chrome";
+@use "component/projects-list";
+@use "component/project-view";
+@use "component/column-view";
+@use "component/board";
+@use "component/task-card";
+@use "component/table";
+@use "component/chips";
+@use "component/config";
+@use "component/inputs";
+@use "component/modal";
+@use "component/config-editor";
+@use "component/task-properties";
+
+// Additive modifiers, after the components they sit on top of.
+@use "component/project-accent";
+@use "component/style-flat";
+
+// Last: pt-btn-group overrides the gap set by whatever class it sits beside.
+@use "component/button-group";

@@ -1,0 +1,19 @@
+// Custom field values on a task.
+//
+// Obsidian's own property rows, used as they come: this is how the values will
+// look in the note's Properties panel, which is where they end up. Nothing here
+// restyles a row. The same data is entered very differently in the config form
+// — see .pt-config-default-value — and the two share no selectors on purpose.
+
+// In a note the container brings its own margins; boxed in a modal it sits flush.
+.pt-properties {
+	margin: 0;
+	padding: 0;
+}
+
+// The rows butt up against each other in a note, where the panel runs the full
+// width and a divider separates them. Inside a settings panel they need their
+// own space instead.
+.pt-properties .metadata-property + .metadata-property {
+	margin-top: 5px;
+}

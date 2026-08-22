@@ -1,0 +1,191 @@
+// Kanban board. The one part of the plugin Obsidian has no equivalent for —
+// nothing in the app lays out horizontal columns — so the column is drawn here.
+// The cards inside are .community-item, the app's own, and cost nothing.
+
+.pt-board {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--size-4-3);
+	height: 100%;
+
+	// No padding of its own. The toolbar above already ends in --size-4-2, which
+	// is the same gap the tab strip leaves above it — anything here is added to
+	// that one and makes the row below the filters sit further out than the row
+	// above them.
+}
+
+.pt-column {
+	display: flex;
+	flex-direction: column;
+	// Fills the space when there is room, holds its ground when there is not.
+	// grow lets a short board spread out, capped by max-width; min-width blocks
+	// the shrink, so once the columns no longer fit they stay at 300 and the
+	// board pans instead. Without min-width a flex item shrinks to min-content,
+	// which is well under 280.
+	flex: 1 1 280px;
+	min-width: 280px;
+	max-width: 600px;
+	// Full height, not just capped at it: columns line up with each other and the
+	// body below scrolls its own tasks instead of the column growing to fit them.
+	height: 100%;
+	border: var(--border-width) solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	background-color: var(--background-secondary);
+
+	&.is-drop-target {
+		border-color: var(--color-accent);
+	}
+}
+
+.pt-column-header {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-3);
+	flex: 0 0 auto;
+	padding: var(--size-4-2);
+
+	// Lighter than the column itself in both themes — base-05 over base-20 on a
+	// light theme, base-30 over base-20 on a dark one — so the header lifts the
+	// same way either way round.
+	background-color: var(--background-secondary-alt);
+
+	// The column rounds its corners but does not clip, so the header rounds its
+	// own top pair or its background squares them off again. Inset by the column's
+	// border, which is what the header sits inside. Logical, for RTL.
+	border-start-start-radius: calc(var(--radius-m) - var(--border-width));
+	border-start-end-radius: calc(var(--radius-m) - var(--border-width));
+}
+
+// The task count, after the name it belongs to. The colour is what keeps it out
+// of the way — the name is the thing being read, the number is a footnote to it.
+.pt-column-count {
+	flex: 0 0 auto;
+
+	// The column name's type, exactly: same weight, and no font-size of its own so
+	// it inherits the size the name inherits. Colour is the only thing separating
+	// them — the number reads as part of the heading, set back from it.
+	font-weight: var(--font-medium);
+	color: var(--text-faint);
+
+	// Everything before this sits together at the start; the auto margin takes
+	// the row's slack and carries the add button to the far end on its own, so
+	// the button needs no class of its own to be positioned.
+	margin-inline-end: auto;
+}
+
+.pt-column-name {
+	// Shrinks to an ellipsis when the name is long, but never grows: growing is
+	// what used to push the count away from the name and up against the button.
+	flex: 0 1 auto;
+	font-weight: var(--font-medium);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.pt-column-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	padding: var(--size-4-2);
+}
+
+// The card is the app's; only the drag state and the chip row below it are ours.
+.pt-column-body .community-item.is-dragging {
+	opacity: 0.4;
+}
+
+// ---------- one column at a time ----------
+//
+// Mobile. A row of 280px columns does not fit a phone, so the toolbar's picker
+// narrows the board to the chosen column and this lets that one column fill the
+// width. Set from Platform.isMobile in ProjectView, not a media query: what gets
+// built changes, not only how it looks.
+//
+// Reaches up to the page body because that is what pans the board — the rule
+// belongs with the board it reshapes rather than in the page's own partial.
+.pt-project-page-body.is-board.is-single {
+	// Nothing pans any more, so a sideways scroll could only ever be an accident
+	// of a column that would not shrink.
+	overflow-x: hidden;
+
+	// The sizing that makes columns line up in a row is exactly what stops one
+	// filling a phone: min-width forces a horizontal scroll under about 300px, and
+	// max-width leaves a gap beside it on a tablet.
+	.pt-column {
+		flex: 1 1 auto;
+		min-width: 0;
+		max-width: none;
+	}
+}
+
+// ---------- phone: compact ----------
+//
+// isPhone, not isMobile: a tablet has the width for the full board and keeps the
+// desktop layout. Every rule below is gated on body.is-phone, so none of it can
+// reach a desktop window however narrow it gets.
+//
+// Screen space is the whole constraint here. The board runs edge to edge and the
+// card's own padding becomes the only inset, which is why the padding is halved
+// rather than removed — it is doing two jobs at once.
+body.is-phone {
+	// Two gutters used to stack here: the app's own --size-4-3 on .view-content,
+	// and the margin the body adds inside it — 24px of a ~390px screen. The app's
+	// goes; the body's stays, so the column still stands off the edges.
+	.view-content.pt-project-page {
+		padding-inline: 0;
+	}
+
+	// The stepper header: a chevron at each end, the status centred between them.
+	//
+	// The centring is the two auto margins, not justify-content — the chevrons are
+	// the same width, so the free space splits evenly and the title lands in the
+	// middle of the column rather than in the middle of whatever is left over.
+	.pt-column-step:first-child {
+		margin-inline-end: auto;
+	}
+
+	.pt-column-step:last-child {
+		margin-inline-start: auto;
+	}
+
+	// Held the add button out to the end. The stepper does its own spacing, and
+	// leaving this on would push the title off centre by the count's width.
+	.pt-column-count {
+		margin-inline-end: 0;
+	}
+
+	.pt-column-header {
+		padding: var(--size-2-3) var(--size-4-2);
+
+		// The padding was never what made this row tall: `button` is
+		// `height: var(--input-height)`, and mobile sets that to --touch-size-m,
+		// 44px — so the add button alone was taller than the row needs to be.
+		// --touch-size-xs is 30px, which is exactly the desktop --input-height and
+		// still a target worth aiming at for a single + .
+		--input-height: var(--touch-size-xs);
+	}
+
+	// No padding of its own: the dividers below run the full width of the column,
+	// and the cards carry the inset instead.
+	.pt-column-body {
+		gap: 0;
+		padding: 0;
+	}
+
+	// Obsidian's mobile card is padding: var(--size-4-4) with no border, which is
+	// a comfortable tap target and far too much of a phone to spend on one task.
+	.pt-column-body .community-item {
+		padding: var(--size-4-2);
+		border-radius: 0;
+	}
+
+	// A line between tasks instead of a gap: it separates them for nothing, where
+	// a gap costs 8px on every card in the column.
+	.pt-column-body .community-item + .community-item {
+		border-top: var(--border-width) solid var(--background-modifier-border);
+	}
+}

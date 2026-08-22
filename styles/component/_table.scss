@@ -1,0 +1,276 @@
+// Task table.
+//
+// Obsidian's Bases table cannot be reused: .bases-tr and .bases-td are both
+// `position: absolute`, with their offsets written inline by Bases' own
+// virtualisation code, so the classes collapse without it. What does transfer
+// is the token set behind them, so the values below are read from there and a
+// table here sits beside a real Bases table without looking foreign.
+//
+// The group heading is the exception — .bases-group-heading and its children
+// carry no positioning and are used as-is.
+
+.pt-table-wrapper {
+	padding-top: var(--size-4-2);
+}
+
+.pt-table {
+	// Every column but Title is sized below, and fixed layout is what makes those
+	// widths mean anything: under the auto algorithm a browser sizes from content,
+	// so one long status name or a row of labels widens its column and the table
+	// stops lining up between groups. Title is the only column left unsized, so it
+	// takes whatever is left over.
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--bases-table-font-size, var(--font-ui-small));
+
+	// Breathing room above and below a row's contents, and the only thing
+	// providing it once a title carries a description.
+	//
+	// A one-line row used to get its space from the gap between the line and the
+	// row height, with the padding adding a couple of pixels on top. A title with
+	// a description under it is taller than that height, so the height stops
+	// applying and the padding is all that is left — 2px of it, which read as the
+	// space vanishing. Sized to stand on its own instead, so a row has the same
+	// gap above and below whether it carries one line or two.
+	--pt-row-padding-y: var(--size-4-2);
+
+	// Wide enough for each column's own heading, which fixed layout will not grow
+	// to fit: a th does not clip, so a heading longer than its column spills over
+	// the next one. Priority is the exception — its heading is the flame itself,
+	// with the word on the tooltip, so it only has to fit an icon.
+	--pt-col-priority: 32px;
+	--pt-col-status: 140px;
+	--pt-col-labels: 200px;
+	--pt-col-date: 120px;
+}
+
+.pt-head-prioritized,
+.pt-cell-prioritized {
+	width: var(--pt-col-priority);
+	line-height: 0px;
+}
+
+.pt-head-prioritized button {
+	line-height: 0px;
+}
+
+.pt-head-status,
+.pt-cell-status {
+	width: var(--pt-col-status);
+}
+
+.pt-head-labels,
+.pt-cell-labels {
+	width: var(--pt-col-labels);
+}
+
+.pt-head-start,
+.pt-cell-start,
+.pt-head-due,
+.pt-cell-due,
+.pt-head-created,
+.pt-cell-created,
+.pt-head-modified,
+.pt-cell-modified {
+	width: var(--pt-col-date);
+}
+
+// ---------- header ----------
+
+.pt-table thead th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	padding: 0;
+	text-align: start;
+	background-color: var(--bases-table-header-background, var(--background-secondary));
+	box-shadow: inset 0 calc(var(--bases-table-row-border-width, 1px) * -1) 0
+		var(--table-border-color, var(--background-modifier-border));
+}
+
+// The header is a real <button> for keyboard sorting, but it is a header first:
+// this takes the control look back off so it does not read as a form field.
+.pt-head-button {
+	width: 100%;
+	height: var(--bases-table-row-height, 30px);
+	padding: 0 var(--size-4-2);
+	justify-content: flex-start;
+	gap: var(--size-2-2);
+	border-radius: 0;
+	background-color: transparent;
+	box-shadow: none;
+	color: var(--text-muted);
+	font-weight: var(--font-medium);
+
+	&:hover {
+		background-color: var(--bases-table-header-background-hover, var(--background-modifier-hover));
+		box-shadow: none;
+	}
+}
+
+.pt-head.is-sorted .pt-head-button {
+	color: var(--text-normal);
+}
+
+// Always present and fixed-width, so sorting a column never changes its width —
+// only the arrow inside appears or disappears.
+.pt-sort-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: var(--icon-xs, 14px);
+	margin-inline-start: auto;
+	--icon-size: var(--icon-xs);
+	--icon-stroke: var(--icon-xs-stroke-width);
+}
+
+// ---------- rows ----------
+
+.pt-cell {
+	// A floor, not a height: a table cell treats `height` as a minimum, so this
+	// only decides how short an empty or one-line row may get. Anything taller
+	// than it is sized by its contents plus the padding above.
+	height: var(--bases-table-row-height, 30px);
+	padding: var(--pt-row-padding-y) var(--size-4-2);
+	box-shadow: inset 0 calc(var(--bases-table-row-border-width, 1px) * -1) 0
+		var(--table-border-color, var(--background-modifier-border));
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+}
+
+.pt-row:hover > .pt-cell {
+	background-color: var(--bases-table-row-background-hover, var(--background-modifier-hover));
+}
+
+.pt-cell-prioritized {
+	text-align: center;
+}
+
+// The title cell is the one that can carry two lines, so it lays its own
+// contents out instead of leaning on the cell's single-line clipping — with two
+// block children the cell's own text-overflow has nothing to act on.
+.pt-cell-title {
+	white-space: normal;
+}
+
+.pt-table-title,
+.pt-table-desc {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// Behind the name, the same as on a board card.
+.pt-table-desc {
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+	line-height: var(--line-height-tight);
+}
+
+.pt-table-title {
+	// An <a> for the semantics — it opens something — but a row of underlined
+	// names reads as a list of links rather than a table of tasks. Obsidian
+	// drives the underline off these two, so they are redefined rather than
+	// overridden: `a` sets text-decoration-line from --link-decoration.
+	--link-decoration: none;
+	--link-decoration-hover: none;
+
+	color: var(--text-normal);
+	cursor: var(--cursor-link);
+
+	&:hover {
+		color: var(--text-accent);
+	}
+}
+
+// ---------- status groups ----------
+
+.pt-group + .pt-group {
+	margin-top: var(--size-4-4);
+}
+
+// .bases-group-heading supplies the typography; this adds the row layout and
+// the affordances a collapsible header needs.
+.pt-group-header {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	width: 100%;
+	// Taller than a row on purpose: it is a heading over rows, not one of them.
+	height: var(--size-4-9);
+	padding-inline: var(--size-2-2);
+	justify-content: flex-start;
+	background-color: var(--bases-table-group-background, var(--background-secondary));
+	box-shadow: none;
+
+	// Collapsed, the header is the whole block and rounds all the way round.
+	// Expanded, its table starts immediately underneath, so the bottom pair
+	// squares off to meet it. Logical, so that stays the bottom pair in RTL.
+	border-radius: var(--bases-table-container-border-radius, var(--radius-s));
+
+	&:not(.is-collapsed) {
+		border-end-start-radius: 0;
+		border-end-end-radius: 0;
+	}
+
+	&:hover {
+		background-color: var(--background-modifier-hover);
+		box-shadow: none;
+	}
+}
+
+.pt-group-chevron {
+	display: inline-flex;
+	align-items: center;
+	color: var(--text-muted);
+	--icon-size: var(--icon-xs);
+	--icon-stroke: var(--icon-xs-stroke-width);
+}
+
+// ---------- the narrow form ----------
+//
+// A phone has no width for eight columns, so renderItems draws the same tasks as
+// cards instead. The list is only ever built there, so none of this needs gating
+// on body.is-phone — the class does not exist on any other display.
+//
+// Shaped to match the board's phone column, which is the sibling display: the
+// same halved padding, the same line between tasks instead of a gap.
+
+.pt-card-list {
+	// Square corners inside, rounded outside: the cards run together as one block
+	// the way the table's rows do, and overflow is what clips them to it.
+	border-radius: var(--bases-table-container-border-radius, var(--radius-s));
+	overflow: hidden;
+}
+
+// Expanded, the group heading squares off its bottom pair to meet what follows.
+// This is the other half of that join.
+.pt-group-header:not(.is-collapsed) + .pt-card-list {
+	border-start-start-radius: 0;
+	border-start-end-radius: 0;
+}
+
+.pt-card-list .community-item {
+	// Obsidian's mobile card is padding: var(--size-4-4) with no border, which is
+	// a comfortable tap target and far too much of a phone to spend on one task.
+	padding: var(--size-4-2);
+	border-radius: 0;
+}
+
+// A line between tasks instead of a gap: it separates them for nothing, where a
+// gap costs 8px on every card in the list.
+.pt-card-list .community-item + .community-item {
+	border-top: var(--border-width) solid var(--background-modifier-border);
+}
+
+// The body already sets a task's distance from the row above it. The wrapper's
+// own padding stacked on top of that, leaving a table sitting twice as far down
+// as a board — see the same gap closed in _project-view.scss.
+body.is-phone .pt-table-wrapper {
+	padding-top: 0;
+}

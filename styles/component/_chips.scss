@@ -1,0 +1,112 @@
+// Status, label, due and priority markers.
+//
+// Custom because each carries a colour chosen per status or per label, which no
+// stock class can express — everything else about them defers to app tokens.
+
+.pt-status-dot {
+	--pt-status-dot-size: 10px;
+	flex: 0 0 auto;
+	width: var(--pt-status-dot-size);
+	height: var(--pt-status-dot-size);
+	border-radius: 50%;
+	background-color: var(--pt-status-color, var(--text-faint));
+	margin-left: var(--size-2-2);
+}
+
+.pt-status-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	font-size: var(--font-ui-smaller);
+	white-space: nowrap;
+}
+
+.pt-label-row {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--size-2-1);
+}
+
+.pt-label {
+	padding: 0 var(--size-2-2);
+	border-radius: var(--radius-s);
+	background-color: color-mix(in srgb, var(--pt-chip-color, var(--text-faint)) 18%, transparent);
+	color: var(--text-normal);
+	font-size: var(--font-ui-smaller);
+	white-space: nowrap;
+}
+
+// Every date in the plugin, not only the due one — created and modified wear the
+// same chip so a row of dates reads as one kind of thing.
+.pt-date {
+	display: inline-flex;
+	align-items: center;
+	line-height: 0;
+	gap: var(--size-2-1);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	white-space: nowrap;
+	--icon-size: var(--icon-xs);
+	--icon-stroke: var(--icon-xs-stroke-width);
+
+	// Obsidian takes --icon-xs from 14px to 18px on mobile, sizing up icons that
+	// are tap targets. These are not: they sit inline with the smallest UI text
+	// and only have to be read, so at 18px they are taller than the date beside
+	// them and read as the louder half of the pair.
+	//
+	// Sized from the chip's own font rather than pinned back to 14px, so the icon
+	// stays the height of the words it belongs to and follows the reader's text
+	// size the way they do — the same thing the app does for its own inline icons
+	// on a phone.
+	body.is-mobile & {
+		--icon-size: var(--font-ui-smaller);
+	}
+
+	// The chip itself when it is only a due date, or the due end alone when the
+	// chip is a span. Never the start, and never the arrow between them.
+	&.is-overdue,
+	.is-overdue {
+		color: var(--text-error);
+	}
+
+	.pt-date-icon {
+		line-height: 0;
+	}
+
+	// One end of a span: its icon and its date, held together so the pair moves
+	// and colours as one. The chip's own gap sits between the ends and the arrow.
+	.pt-date-end {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--size-2-1);
+	}
+
+	// Between a start and a due date. Held back with opacity rather than a colour
+	// of its own, so it still goes red with the rest of the chip when the span has
+	// overrun.
+	.pt-date-arrow {
+		display: inline-flex;
+		align-items: center;
+		line-height: 0;
+		opacity: 0.6;
+	}
+}
+
+// The dates either side of it swap places in RTL, so the arrow has to turn to
+// keep pointing at the due end. The app mirrors its own directional icons the
+// same way.
+.mod-rtl .pt-date-arrow svg {
+	transform: scale(-1, 1);
+}
+
+.pt-priority {
+	display: inline-flex;
+	align-items: center;
+	// The project's colour, so a flame belongs to the project it is in rather
+	// than to the vault's accent. Declared on .pt-project-page, so the fallback
+	// only matters if this ever gets used outside one.
+	color: var(--pt-project-color, var(--text-accent));
+	--icon-size: var(--icon-xs);
+	--icon-stroke: var(--icon-xs-stroke-width);
+}

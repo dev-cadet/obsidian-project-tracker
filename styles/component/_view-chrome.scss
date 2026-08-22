@@ -1,0 +1,110 @@
+// Chrome shared by both plugin views.
+//
+// Each view draws its own header, so the app's would repeat it directly above.
+// Hiding it has one consequence worth stating: .view-content is sized
+// `calc(100% - var(--header-height))`, so with no header the page stops that
+// far short of the bottom. The height is reclaimed here.
+//
+// Scrolling is deliberately not set here — the list view scrolls as a page, the
+// project view scrolls its body only, and a rule at this specificity would win
+// against both.
+//
+// Desktop only. On mobile that header is the navigation — the drawer toggles and
+// the back affordance live in it — and there is no sidebar showing to reach them
+// from instead, so hiding it strands the view. Repeating the title is the lesser
+// cost. body.is-mobile is Obsidian's own flag, so this follows the app rather
+// than being decided once at load.
+body:not(.is-mobile) .workspace-leaf-content[data-type^="project-tracker-"] {
+	.view-header {
+		display: none;
+	}
+
+	.view-content {
+		height: 100%;
+	}
+}
+
+// Room at the bottom for the mobile navbar.
+//
+// --view-bottom-spacing is the app's own measure of what a view has to leave
+// clear: 0 when nothing is over the content, and the floating navbar's height
+// plus the safe-area inset when there is. Taking it from the token rather than
+// adding up --navbar-height ourselves means a docked navbar, a hidden one and a
+// raised keyboard are all already accounted for.
+//
+// On the page element rather than the scroller inside it, so the footer note
+// clears the navbar too. That is what makes it work here and not on the projects
+// list, whose root *is* the scroller — see _projects-list.scss for the margin
+// that does the same job there.
+body.is-mobile {
+	.pt-project-page {
+		padding-bottom: calc(var(--view-bottom-spacing) + var(--size-4-2));
+	}
+}
+
+// The status bar, while a plugin view is the active leaf.
+//
+// Named one at a time rather than as "everything except sync". A blanket hide
+// takes out whatever gets added later as well, and sync is the example of why
+// that matters — anything not listed here stays visible, and the list grows on
+// purpose rather than by default.
+//
+// :has on body because the status bar is a sibling of the workspace, not
+// anything inside the leaf; mod-active so it only applies while a project page
+// is the leaf being looked at.
+//
+// mod-root restricts that to the main area. A docked column is a plugin view
+// too, and clicking into one must not take the word count off a note being
+// edited beside it.
+//
+// No !important needed: the core plugins that own these items clear their inline
+// display rather than setting one, so a stylesheet rule still wins.
+body:has(
+		.workspace-split.mod-root
+			.workspace-leaf.mod-active
+			.workspace-leaf-content[data-type^="project-tracker-"]
+	) {
+	.status-bar-item.plugin-backlink,
+	.status-bar-item.plugin-editor-status,
+	.status-bar-item.plugin-properties,
+	.status-bar-item.plugin-word-count {
+		display: none;
+	}
+}
+
+// Desktop-shaped controls on mobile.
+//
+// Obsidian rounds every control to a pill on mobile: --input-radius becomes
+// --touch-radius-m, which is --touch-size-m, 44px — taller than the control, so
+// it renders as a full capsule. That reads as a phone app rather than as the
+// plugin, and it is what made the view tabs look like broken circles once their
+// bottom corners were squared off against the strip.
+//
+// Every token, not just --input-radius. --button-radius and
+// --search-input-radius are declared on body as `var(--input-radius)`, and a
+// custom property is substituted at computed-value time — so their value is
+// fixed at body and redefining --input-radius further down does not reach them.
+//
+// --textarea-radius is the same trap from the other end: `textarea` reads
+// `var(--textarea-radius, var(--input-radius))`, and the app declares that token
+// on .is-mobile and nowhere else. So on a phone the fallback never runs and a
+// textarea kept its pill while every input beside it squared off.
+//
+// --radius-s is 4px, which is what --clickable-icon-radius already resolves to
+// on desktop and within a pixel of --input-radius's 5px.
+//
+// Scoped to the plugin's own roots, so nothing outside it changes shape. Only
+// the radius: --input-height stays at --touch-size-m, because a control still
+// has to be big enough to hit.
+body.is-mobile {
+	.pt-project-page,
+	.pt-list-view,
+	.pt-column-view,
+	.pt-modal {
+		--input-radius: var(--radius-s);
+		--button-radius: var(--radius-s);
+		--search-input-radius: var(--radius-s);
+		--clickable-icon-radius: var(--radius-s);
+		--textarea-radius: var(--radius-s);
+	}
+}

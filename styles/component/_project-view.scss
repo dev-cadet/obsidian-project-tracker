@@ -1,0 +1,220 @@
+// Project view shell: heading, view tabs, toolbar, scrolling body, footer note.
+//
+// The body is the only thing that scrolls, so the header and toolbar stay put
+// while a long board or table moves under them.
+
+.pt-project-page {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	// Set inline from project.color on every render, which beats this. Only the
+	// floor: what a project with no colour saved against it falls back to.
+	--pt-project-color: var(--color-accent);
+}
+
+.view-content.pt-project-page {
+	padding-bottom: max(var(--safe-area-inset-bottom), var(--size-4-4));
+}
+
+// ---------- heading and view tabs ----------
+
+.pt-project-page-header {
+	flex: 0 0 auto;
+	padding: var(--size-4-3) var(--size-4-3) 0;
+}
+
+.pt-project-page-heading {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+}
+
+.pt-project-page-title {
+	flex: 1 1 auto;
+	margin: 0;
+}
+
+// Above the tab strip on mobile, where the heading row is not drawn and the
+// app's own header sits directly above it instead.
+//
+// Three separate paddings were stacking to 24px: the app's --size-4-3 on
+// .view-content, this header's own --size-4-3, and the strip's --size-4-2 margin
+// standing it off a heading row that is no longer there. Collapsed to one
+// --size-4-2, which is the same gap the tabs leave above the filter row and the
+// filter row leaves above the board.
+body.is-mobile {
+	.view-content.pt-project-page {
+		padding-top: 0;
+	}
+
+	.pt-project-page-header {
+		padding-top: var(--size-4-2);
+	}
+
+	.pt-project-page-tabs {
+		margin-top: 0;
+	}
+}
+
+.pt-project-page-tabs {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	margin-top: var(--size-4-2);
+
+	// The line the tabs stand on. Full strength rather than a mix, so it reads as
+	// the project's own colour and not as another divider.
+	border-bottom: var(--size-4-1) solid var(--pt-project-color);
+
+	// The strip pans rather than wrapping, so the toolbar below never moves.
+	overflow-x: auto;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+// A tab, and the button that adds one.
+//
+// Both are plain <button>s, so the app styles them; this lays the icon beside the
+// label, which ButtonComponent cannot do, and opens the edge that meets the line.
+.pt-project-page-tab {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	flex: 0 0 auto;
+
+	// Logical, so the pair that squares off is still the bottom one in RTL.
+	border-end-start-radius: 0;
+	border-end-end-radius: 0;
+
+	// No edge at all. A button has border: 0 and draws its edge as the ring inside
+	// --input-shadow, so emptying that token takes the ring and the drop shadow
+	// under it — a tab is a shape in the strip, not a raised control.
+	--input-shadow: none;
+	--input-shadow-hover: none;
+
+}
+
+// Optically centred rather than geometrically: the glyph reads high against the
+// label beside it. A relative offset rather than a margin, so the nudge cannot
+// change the tab's height — the same trick the app uses on .input-button.
+.pt-project-page-tab-icon {
+	position: relative;
+	top: 2px;
+}
+
+// ---------- toolbar ----------
+
+.pt-project-page-toolbar {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	padding: var(--size-4-2) var(--size-4-3);
+
+	// SearchComponent's own container, given the row's slack.
+	.search-input-container {
+		flex: 1 1 auto;
+		min-width: 120px;
+	}
+}
+
+.pt-project-page-toolbar-end {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	flex: 0 0 auto;
+	margin-inline-start: auto;
+}
+
+// A control with a word in front of it, so a bare dropdown is not left to
+// explain itself.
+.pt-project-page-toolbar-field {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-2-2);
+}
+
+.pt-project-page-toolbar-field-label {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+}
+
+// ---------- body and footer ----------
+
+.pt-project-page-body {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: auto;
+	padding-bottom: var(--size-4-1);
+	margin: 0 var(--size-4-3) var(--size-4-2);
+}
+
+// The gap the toolbar used to provide. On a phone board every control in that
+// row moved to the pane menu and the row removed itself, leaving the tabs
+// standing directly on the first column.
+//
+// Adjacency rather than a platform class: it applies exactly when there is no
+// toolbar between the two, which is the condition that actually matters and is
+// one nobody has to remember to keep in step.
+.pt-project-page-header + .pt-project-page-body {
+	margin-top: var(--size-4-2);
+}
+
+// The board pans sideways; each column scrolls its own tasks.
+.pt-project-page-body.is-board {
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.pt-project-page-footer {
+	flex: 0 0 auto;
+	padding: 0 var(--size-4-3) var(--size-4-3);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+
+	&.is-hidden {
+		display: none;
+	}
+}
+
+// The count of what the filters are hiding is a footnote, and a phone has no
+// room for one — the line it costs is a task the board could have shown. The
+// view's filters are still one tap away in Configure.
+body.is-phone .pt-project-page-footer {
+	display: none;
+}
+
+// ---------- states ----------
+
+.pt-project-page-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--size-4-3);
+	padding-top: var(--size-4-12);
+}
+
+.pt-project-page-warning {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--size-4-2);
+	margin: 0 var(--size-4-3) var(--size-4-2);
+	padding: var(--size-4-3);
+	border-radius: var(--radius-m);
+	background-color: var(--background-modifier-error);
+	color: var(--text-normal);
+	font-size: var(--font-ui-small);
+}
+
+.pt-project-page-warning-icon {
+	flex: 0 0 auto;
+	color: var(--text-error);
+}
+
+.pt-project-page-warning-link {
+	cursor: var(--cursor-link);
+}

@@ -1,0 +1,200 @@
+// Dialog shell.
+//
+// The three-part layout is Obsidian's: .modal is already a flex column, and
+// mod-scrollable-content moves the padding onto .modal-title, gives
+// .modal-content its own scrollbar, and puts the border and padding on
+// .modal-button-container. .mod-secondary inside that row carries
+// margin-inline-end:auto, which is what separates the left actions from the
+// right. None of that is repeated here.
+
+// No stock subtitle exists. This borrows .setting-item-description's treatment
+// and lines up with the title's own padding, which mod-scrollable-content puts
+// on .modal-title rather than on the header.
+.pt-modal-subheader {
+	padding: var(--size-2-1) var(--size-4-4) 0;
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	line-height: var(--line-height-tight);
+
+	&:empty {
+		display: none;
+	}
+}
+
+// DEVIATION: .modal-header ships `margin-bottom: 0.75em`, which reads as a gap
+// between the title band and the content. Replaced with a rule, so the title
+// band is separated by a line rather than by empty space.
+.modal.mod-scrollable-content .modal-header {
+	margin-bottom: 0;
+	padding-bottom: var(--size-4-3);
+	border-bottom: var(--border-width) solid var(--background-modifier-border);
+}
+
+// DEVIATION: the app leaves the top padding off, because the header's margin
+// used to stand in for it. With that margin gone and a border in its place, the
+// content needs its own gap below the line.
+.modal.mod-scrollable-content .modal-content {
+	padding: var(--size-4-4);
+}
+
+// Each side of the action row is a group, so buttons within a side keep the
+// row's own gap between them.
+.pt-modal-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+}
+
+// ---------- the phone sheet ----------
+//
+// PluginModal adds mod-lg on a phone, which is what makes a dialog full height
+// and anchors it to the bottom edge. That much is the app's. These are the
+// places our own shell has to meet it.
+
+body.is-phone .modal.pt-modal {
+	// Obsidian's own narrow contexts — the Bases toolbar's sort and group rows,
+	// the query builder's filter rows — take the property label from the 9em a
+	// full-width note uses down to 7em. A phone dialog is narrower than either,
+	// and 9em of it was going to the label before the value started.
+	--metadata-label-width: 7em;
+
+	// The gutter was being paid twice. .modal-content sets one below, and then
+	// every row inside a setting group pays 20px again — and it is the second
+	// one that actually decides how far a field sits from the edge. Matched to
+	// the content's, so the two read as one gutter instead of two.
+	--setting-items-padding-x: var(--size-4-2);
+
+	// The header's own top padding. Named, because the title band and the close
+	// button that has to centre on it both measure from here, and they cannot be
+	// allowed to drift apart.
+	--pt-modal-header-top: var(--size-4-3);
+
+	// The header buttons are absolutely positioned children of .modal, and the
+	// app only makes .modal a containing block under mod-scrollable — ours is
+	// mod-scrollable-content. This pins them to the sheet rather than to
+	// whichever ancestor happens to be positioned at the time.
+	position: relative;
+
+	// DEVIATION: mod-lg rounds the sheet's top corners. Squared off, so the
+	// dialog reads as the screen it has taken over rather than as a card sitting
+	// on top of one.
+	//
+	// The .modal in this rule's own selector is what makes it stick: mod-lg sets
+	// the token from `.is-phone .modal.mod-lg`, three classes to the two a bare
+	// `body.is-phone .pt-modal` has, so the app was still winning.
+	--modal-radius: 0;
+
+	// The app's phone header is a flex row, so a title can sit centred between
+	// the header's buttons. Ours carries a subtitle under the title as well, so
+	// it becomes a column instead.
+	//
+	// The padding is 24px there because that is what centres the title against a
+	// 44px button dropped 12px from the top. Both move up together — the button
+	// to the sheet's own top edge, the title to half the padding — so they stay
+	// on the same line and the dialog spends 12px less getting to it.
+	.modal-header {
+		flex-direction: column;
+		align-items: stretch;
+		padding-top: var(--pt-modal-header-top);
+	}
+
+	// Out of flow, so nothing lines the close button up with anything — the
+	// app's offset, and the top edge it was moved to, both only happened to land
+	// near the title. Anchored to the middle of the title's own line instead:
+	// the header's padding, then half a line box, then back up by half the
+	// button. It stays centred if the type scale moves under it.
+	.modal-header-button {
+		top: calc(
+			var(--pt-modal-header-top) + var(--font-ui-medium) *
+				var(--line-height-tight) * 0.5
+		);
+		transform: translateY(-50%);
+	}
+
+	// mod-scrollable-content pads the title, because on a desktop the header has
+	// no padding of its own. On a phone it does, and both were applying.
+	.modal-title {
+		padding: 0;
+	}
+
+	// Under a title the app centres, inside a header that already pads its sides.
+	.pt-modal-subheader {
+		padding-inline: 0;
+		text-align: center;
+	}
+
+	// Half what the dialog uses elsewhere. The fields inside carry padding of
+	// their own, so on a phone this was the outer half of a doubled gutter and
+	// the width it cost came out of every value in the form.
+	.modal-content {
+		padding: var(--size-4-2);
+	}
+
+	// The app stacks a phone's action row, a button to a line. A sheet is the
+	// full width of the screen and two or three buttons fit across it, so the
+	// row stays a row.
+	.modal-button-container {
+		flex-direction: row;
+	}
+
+	// The two groups exist to split the row left from right, which the app turns
+	// off on mobile anyway — .mod-secondary loses its auto margin there. Dropping
+	// the boxes rather than the buttons inside them makes every button a direct
+	// child of the row, so they share the whole width evenly instead of sharing
+	// whichever half their group landed in.
+	.pt-modal-actions {
+		display: contents;
+	}
+
+	.pt-modal-actions button {
+		flex: 1 1 0;
+		min-width: 0;
+	}
+
+	// Not a button, and not something to squeeze into a share of the row. The
+	// row already wraps, so a full basis puts it on a line of its own.
+	.pt-modal-status {
+		flex: 1 0 100%;
+	}
+
+	// The app makes every input inside a setting control full width on a phone.
+	// That is right for a text field and wrong for a checkbox, which the app
+	// itself sizes from --checkbox-size — a stretched one is what turned the
+	// column list into bars. The stacked-row rule beside it already carves
+	// checkboxes out; the app's does not, and it is the more specific of the two.
+	input[type="checkbox"] {
+		width: var(--checkbox-size);
+	}
+
+	// A config row is grip, name, type and buttons on one line, which needs more
+	// width than a phone has. The type select goes to a line of its own, ordered
+	// last so the name keeps its buttons alongside it rather than being left on
+	// a line by itself — and it lands directly above the default value it
+	// governs.
+	.pt-config-row-main {
+		flex-wrap: wrap;
+	}
+
+	.pt-config-type {
+		order: 1;
+		flex: 1 0 100%;
+	}
+
+	// A group heading is transparent and padded 16px in, which worked when the
+	// list under it was a bubble with a fill and a border of its own. On mobile
+	// --setting-items-background and --modal-background are the same colour, so
+	// that bubble never shows and the heading was the only thing left to say
+	// where one section ended and the next began — with nothing to say it with.
+	//
+	// So the fill moves to the heading: a band, inset to the same 8px as the
+	// rows beneath it, on --background-primary-alt because that is a resting
+	// surface a shade off the dialog rather than a hover state borrowed for the
+	// look. The margin below closes up to match, so the band reads as the top of
+	// its own section instead of floating between two.
+	.setting-item-heading {
+		padding: var(--size-2-3) var(--size-4-2);
+		margin-bottom: var(--size-4-2);
+		background-color: var(--background-primary-alt);
+		border-radius: var(--radius-s);
+	}
+}

@@ -1,0 +1,36 @@
+// Controls that wear a project's colour instead of the vault's accent.
+//
+// A surface, not a list of components. Naming them one at a time is how a set
+// like this drifts apart: the view tabs and the confirming buttons were
+// repointed, and the toggles, switches and checkboxes sitting beside them in
+// the same dialog were left on the vault's colour.
+//
+// Nothing here draws anything. The app already resolves fills, hovers, actives
+// and focus rings from these tokens, so repointing them means no specificity to
+// win and no state to reimplement.
+//
+// Both selectors guarantee --pt-project-color is set: .pt-project-page declares
+// a fallback, and .pt-modal-accent is only added when a dialog was given a
+// colour. Without that guarantee an unset token would leave the accent invalid
+// and take every fill resolved from it with it.
+.pt-project-page,
+.pt-modal-accent {
+	// Reaches everything that reads the accent directly: mod-cta buttons — the
+	// selected view tab, New task, a dialog's Save — and .checkbox-container,
+	// which is what a toggle switch is made of.
+	--interactive-accent: var(--pt-project-color);
+
+	// Lighter, which is the direction the app moves its own accent on hover in
+	// both themes: --color-accent-1 is --color-accent at 1.075x lightness.
+	--interactive-accent-hover: color-mix(in srgb, var(--pt-project-color) 88%, white);
+
+	// Checkboxes do not read the accent; they read these, and the app declares
+	// both on `body` as `var(--interactive-accent)`. A custom property is
+	// substituted at computed-value time, so their value is fixed at body and
+	// repointing the accent further down never reaches them — which is why a
+	// ticked checkbox stayed on the vault's colour while the button beside it
+	// changed. Declared here, `var(--interactive-accent-hover)` resolves against
+	// this element, so the hover mix above is what it picks up.
+	--checkbox-color: var(--pt-project-color);
+	--checkbox-color-hover: var(--interactive-accent-hover);
+}

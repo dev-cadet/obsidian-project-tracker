@@ -1,0 +1,437 @@
+// The editors inside Project Config, and the odds and ends the modals need.
+//
+// The dialog shell, its sections and its rows are all stock — see _modal.scss
+// and ConfigSection. What is left here is the status / label / field editor,
+// which is not a label-and-control row but a small form per line, and so has no
+// stock shape to borrow. Every value comes from an app token.
+
+// A muted line of explanation, or a validation message beside the actions.
+// .setting-item-error is the nearest stock class but is right-aligned and
+// full-width by design, for a settings row rather than a dialog footer.
+.pt-modal-status {
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	line-height: var(--line-height-tight);
+
+	&.is-error {
+		color: var(--text-error);
+	}
+}
+
+// ---------- status / label / field rows ----------
+
+// Statuses, labels and custom fields. No gap: every row in all three is
+// drag-ordered and carries its own vertical padding, which does the separating.
+// The margin is a different job — it holds the list off the hint above it and
+// the Add button below.
+.pt-config-list {
+	display: flex;
+	flex-direction: column;
+	margin: var(--size-4-2) 0;
+}
+
+.pt-config-row {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-2-2);
+	// Room for the drop indicator, which is an inset shadow on the row's own
+	// top edge: with no vertical padding it lands on the controls.
+	padding: 6px 4px;
+	border-radius: var(--input-radius);
+
+	&.is-dragging {
+		opacity: 0.4;
+	}
+
+	// Marked on the edge the row would arrive at, the same way the column list
+	// marks its drop target.
+	&.is-drop-target {
+		box-shadow: inset 0 2px 0 var(--color-accent);
+	}
+}
+
+// Only the grip drags: a draggable ancestor swallows text selection, and the
+// row beside it is a name field.
+.pt-config-grip {
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 auto;
+	color: var(--text-faint);
+	cursor: grab;
+	--icon-size: var(--icon-xs);
+	--icon-stroke: var(--icon-xs-stroke-width);
+
+	&:active {
+		cursor: grabbing;
+	}
+
+	&:hover {
+		color: var(--text-muted);
+	}
+}
+
+.pt-config-row-main,
+.pt-config-row-meta {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+}
+
+.pt-config-row-meta {
+	flex-wrap: wrap;
+	padding-inline-start: var(--size-4-6);
+}
+
+// Name input with its key inside the field's right edge, so the typing area is
+// the same width on every row.
+.pt-config-input {
+	position: relative;
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.pt-config-name {
+	width: 100%;
+	padding-inline-end: 8em;
+}
+
+.pt-config-key {
+	position: absolute;
+	inset-inline-end: var(--size-2-3);
+	max-width: 7em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--text-faint);
+	font-size: var(--font-smaller);
+	pointer-events: none;
+
+	// The key is about to change on save, so it stops being incidental.
+	&.is-renamed {
+		color: var(--text-accent);
+	}
+}
+
+.pt-config-type {
+	flex: 0 0 auto;
+}
+
+.pt-config-duration {
+	width: 6em;
+}
+
+.pt-config-field {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-2-2);
+}
+
+// The default-value pair takes the rest of the line. Without it the row is an
+// inline-flex sized to its content, and .metadata-property-value's flex-grow
+// has nothing to grow into.
+.pt-config-default {
+	display: flex;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+// The Default Value control in Custom Fields.
+//
+// Nothing to do with how a value is displayed on a task. That block wears
+// Obsidian's Properties-panel look on purpose, because a note's Properties
+// panel is where those values end up. This is a form field in a config form, so
+// it wears the app's input contract instead — separate container, separate
+// rules, no shared selectors between the two.
+.pt-config-default-value {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	flex: 1 1 auto;
+	min-width: 0;
+
+	// Text is a contenteditable div, so the app gives it no input styling at
+	// all; list gets it from the app already. Both are matched to the number and
+	// date inputs that sit beside them in the same list.
+	.metadata-input-longtext,
+	.multi-select-container {
+		flex: 1 1 auto;
+		min-width: 0;
+		// The app leaves this off the longtext field, which is why it sat short
+		// of the inputs beside it. The list container already has it.
+		min-height: var(--input-height);
+		padding: var(--input-padding);
+		border: var(--input-border-width) solid var(--background-modifier-border);
+		border-radius: var(--input-radius);
+		background-color: var(--background-modifier-form-field);
+		transition: border var(--anim-duration-fast) ease-in-out;
+
+		// Real inputs keep their fill and lift only the border.
+		&:hover {
+			border-color: var(--background-modifier-border-hover);
+		}
+	}
+
+	// Centres the text now that the box is taller than one line of it.
+	// align-content rather than flex: this stays a normal block, so the caret
+	// and selection behaviour of the contenteditable are untouched.
+	.metadata-input-longtext {
+		align-content: center;
+	}
+
+	// The container wraps its pills, so it defaults to stretching them and the
+	// entry box to full height, which leaves the text sitting at the top.
+	.multi-select-container {
+		align-items: center;
+		align-content: center;
+	}
+}
+
+// Deliberately quiet: the control beside it is the thing being read, and the
+// label repeats on every row.
+.pt-config-field-label {
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+	white-space: nowrap;
+	padding-right: var(--size-2-2);
+}
+
+.pt-config-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-1);
+	flex: 0 0 auto;
+}
+
+// ---------- column list ----------
+
+.pt-column-list {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	width: 100%;
+}
+
+// Shaped like an input field: same fill, same radius, same border width. The
+// border is transparent at rest and takes the input colour on hover, so the row
+// never changes size — declaring it up front is what keeps the hover from
+// nudging everything by a pixel.
+.pt-column-row {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	padding: calc(var(--size-2-2) + 2px) var(--size-2-3);
+	border: var(--input-border-width) solid transparent;
+	border-radius: var(--input-radius);
+	background-color: var(--background-modifier-form-field);
+
+	&.is-shown {
+		cursor: grab;
+	}
+
+	&:hover {
+		border-color: var(--background-modifier-border);
+	}
+
+	&.is-dragging {
+		opacity: 0.4;
+	}
+
+	// Marked on the edge the row would arrive at.
+	&.is-drop-target {
+		box-shadow: inset 0 2px 0 var(--color-accent);
+	}
+}
+
+.pt-column-grip {
+	display: inline-flex;
+	align-items: center;
+	color: var(--text-faint);
+	--icon-size: var(--icon-xs);
+	--icon-stroke: var(--icon-xs-stroke-width);
+}
+
+// ---------- date filter ----------
+
+.pt-date-filter-controls {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--size-2-3);
+	margin-top: var(--size-2-2);
+
+	input[type="text"] {
+		width: 6em;
+	}
+
+	input[type="date"] {
+		width: auto;
+	}
+}
+
+// ---------- change log ----------
+
+.pt-changelog {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-2-1);
+	max-height: 16em;
+	overflow-y: auto;
+}
+
+.pt-changelog-date {
+	margin-top: var(--size-4-2);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-medium);
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+.pt-changelog-entry {
+	color: var(--text-normal);
+	font-size: var(--font-ui-smaller);
+}
+
+// ---------- colour swatch ----------
+
+// The native colour input is the picker; the span is only there to show the
+// chosen colour at a size that suits a form row.
+.pt-color-dot {
+	position: relative;
+	display: inline-block;
+	flex: 0 0 auto;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: var(--border-width) solid var(--background-modifier-border);
+	background-color: var(--pt-swatch-color, var(--text-faint));
+
+	input[type="color"] {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		border: none;
+		opacity: 0;
+		cursor: pointer;
+	}
+}
+
+// ---------- suggestions ----------
+
+// The icon picker's preview, sized to sit level with the name beside it.
+.pt-icon-option-preview {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--icon-s);
+	--icon-size: var(--icon-s);
+	--icon-stroke: var(--icon-s-stroke-width);
+}
+
+// Second line of a suggestion row: the folder's path, or a note that it is
+// empty. Obsidian's .suggestion-item gives the row itself.
+.pt-folder-suggestion {
+	display: flex;
+	align-items: baseline;
+	gap: var(--size-2-2);
+}
+
+.pt-folder-suggestion-hint,
+.pt-suggest-path {
+	color: var(--text-muted);
+
+	&.is-empty {
+		color: var(--text-faint);
+	}
+}
+
+.pt-suggest-path {
+	display: block;
+}
+
+// The settings tab's status-template editor.
+//
+// The textarea is Obsidian's now — the tab declares a control rather than
+// building one — so its size comes from the definition's `rows` and only what
+// the app has no opinion about is set here. Reached through the group's `cls`,
+// which is the hook a definition-driven tab gives for exactly this.
+.pt-status-template textarea {
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-smaller);
+	resize: vertical;
+}
+
+// ---------- parent and children, in the task editor ----------
+
+// Warning rather than destructive: --background-modifier-warning is the app's
+// orange, while its .mod-warning button is red and means delete. Clearing a
+// parent removes a link, not a task.
+//
+// Through --text-color because that is the variable `button` reads for its own
+// colour, so there is no specificity to win against button:not(.clickable-icon).
+.pt-clear-button {
+	--text-color: var(--text-warning);
+}
+
+// A task, on a row in a dialog — the parent above, and each assigned child.
+//
+// Shaped like an input rather than a button: these are lists of things to open,
+// and a column of buttons reads as a form to fill in.
+.pt-task-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-2-2);
+}
+
+.pt-task-row {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	padding: var(--size-2-3) var(--size-4-2);
+	border: var(--input-border-width) solid transparent;
+	border-radius: var(--input-radius);
+	background-color: var(--background-modifier-form-field);
+	cursor: var(--cursor);
+	transition: border var(--anim-duration-fast) ease-in-out;
+
+	&:hover {
+		border-color: var(--background-modifier-border-hover);
+	}
+
+	// Nothing to open: the note has gone, or the assignment is not saved yet.
+	&.is-static {
+		cursor: default;
+
+		&:hover {
+			border-color: transparent;
+		}
+	}
+
+	// A parent whose note has gone reads as absent as well as inert.
+	&.is-missing {
+		color: var(--text-faint);
+	}
+}
+
+.pt-task-row-name {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.pt-task-row-open {
+	flex: 0 0 auto;
+	line-height: 0;
+	color: var(--text-faint);
+	--icon-size: var(--icon-xs);
+	--icon-stroke: var(--icon-xs-stroke-width);
+}

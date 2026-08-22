@@ -1,0 +1,55 @@
+// Button group.
+//
+// An additive wrapper class: put `pt-btn-group` on any element that already
+// lays buttons out in a row, and its children weld into one segmented control.
+// Remove the class and everything returns to how it was — nothing else in the
+// sheet knows about it.
+//
+// Deliberately loaded last, so `gap: 0` wins over whatever gap the element's
+// own class sets.
+.pt-btn-group {
+	display: flex;
+	align-items: stretch;
+	// No gap, or there is nothing to weld.
+	gap: 0;
+	// A raised edge paints over its neighbour, not under it.
+	isolation: isolate;
+
+	// Inner corners square.
+	> button {
+		border-radius: 0;
+	}
+
+	// Outer corners keep the app's own button radius. Logical properties, so it
+	// still reads correctly in RTL, where :first-child sits on the right.
+	> button:first-child {
+		border-start-start-radius: var(--button-radius);
+		border-end-start-radius: var(--button-radius);
+	}
+
+	> button:last-child {
+		border-start-end-radius: var(--button-radius);
+		border-end-end-radius: var(--button-radius);
+	}
+
+	// A lone button is not a group. Follows both rules above, since one child
+	// matches every one of them.
+	> button:only-child {
+		border-radius: var(--button-radius);
+	}
+
+	// Half the seam. Obsidian draws a button edge as `inset 0 0 0 1px` inside
+	// --input-shadow, so two neighbours meet as two rings side by side and read
+	// 2px thick. Overlapping by a pixel puts them back to one. The value is
+	// literal because the ring in --input-shadow is literal too — there is no
+	// token to derive it from.
+	> button + button {
+		margin-inline-start: -1px;
+	}
+
+	// Whichever segment is hovered or focused owns the shared edge.
+	> button:hover,
+	> button:focus-visible {
+		z-index: 1;
+	}
+}

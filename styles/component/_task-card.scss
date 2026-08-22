@@ -1,0 +1,73 @@
+// The task card, wherever it is drawn.
+//
+// The card itself is .community-item, Obsidian's own — the frame, hover and
+// focus ring all come from the app. These are the two parts the app has no
+// equivalent for, and they live here rather than in _board.scss because the
+// board is no longer the only thing rendering one: see views/shared/TaskCard.ts.
+
+// .community-item-desc carries no colour of its own, so a snippet inherits the
+// card's and reads at the same weight as the task name above it. Faint puts it
+// behind the name, which is the thing being scanned for.
+.pt-card-desc {
+	color: var(--text-faint);
+}
+
+// Priority, labels and due date, on one line under the name.
+.pt-card-footer {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--size-2-2);
+	margin-top: var(--size-2-2);
+}
+
+// The task this one belongs under, on its own line at the foot of the card.
+//
+// Set back like the description, because it is context rather than content — the
+// card is still about its own task. Only the name is clickable; the row is
+// inside a card that already opens something else on click.
+.pt-card-parent {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-1);
+	min-width: 0;
+	margin-top: var(--size-2-2);
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+	--icon-size: var(--icon-xs);
+	--icon-stroke: var(--icon-xs-stroke-width);
+}
+
+.pt-card-parent-icon {
+	flex: 0 0 auto;
+	line-height: 0;
+}
+
+.pt-card-parent-link {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: var(--cursor-link);
+
+	&:hover {
+		color: var(--text-accent);
+	}
+}
+
+// The board's card title, which carries the priority flame beside the name.
+//
+// .community-item-name is not a flex row of its own — the projects list makes
+// its own one the same way — so it is told to be one here rather than in the
+// app's class, which the dock's cards share.
+.pt-card-title {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+
+	// The name's own colour rather than the project's, which it carries in the
+	// footer: beside the name it reads as part of the title, and a second colour
+	// there competes with the labels and the status for the same glance.
+	.pt-priority {
+		color: var(--text-normal);
+	}
+}

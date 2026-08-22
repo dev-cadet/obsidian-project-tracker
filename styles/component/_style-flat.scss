@@ -1,0 +1,98 @@
+// Flat style.
+//
+// Two additive modifier classes that take the raised look off a control and put
+// an input field's look in its place: `pt-btn-style-flat` for buttons,
+// `pt-input-style-flat` for dropdowns and text inputs. Neither is a component.
+// Put one on a control that is already styled and it changes how that control
+// reads; take it off and everything returns, because nothing else in the sheet
+// knows about either class.
+//
+// The fill is var(--background-modifier-form-field) and stays there — a flat
+// control never changes colour. Hover is the input field's border instead:
+// var(--input-border-width) of var(--background-modifier-border-hover), the same
+// width and colour the app paints on `input:hover`.
+//
+// Nearly all of it is done by re-declaring Obsidian's own custom properties on
+// the element rather than by overriding the app's rules. The app resolves those
+// variables in its own declarations, so there is no specificity fight to win and
+// no !important, and a theme that restyles buttons or inputs carries on doing so
+// — it just does it flat. This is how the app flattens its own controls:
+// `.metadata-property` sets --input-border-width: 0, and the mobile toolbar sets
+// --input-shadow: none.
+//
+// Custom properties inherit, so either class also works on a wrapper and flattens
+// every control inside it.
+
+
+// A button's edge is not a border. `button` sets `border: 0` and draws the edge
+// as the inset ring inside --input-shadow, with the drop shadow beneath it in the
+// same value — so the edge comes off, and comes back on hover, through that ring
+// rather than through a border property. Same mechanism the app uses; the width
+// and colour are the input field's.
+//
+// Radius and height need no help: --button-radius is already var(--input-radius),
+// and a button is already var(--input-height) tall.
+.pt-btn-style-flat {
+	// button:not(.clickable-icon) fills from --interactive-normal and button:hover
+	// from --interactive-hover. Both point at the form field, so the fill holds
+	// still and hover reads on the edge alone.
+	--interactive-normal: var(--background-modifier-form-field);
+	--interactive-hover: var(--background-modifier-form-field);
+
+	--input-shadow: none;
+	--input-shadow-hover: inset 0 0 0 var(--input-border-width) var(--background-modifier-border-hover);
+
+	// The app declares its input transition inside the hover rule, so an edge
+	// fades in and cuts out. Matched here, because this ring is ours.
+	&:hover {
+		transition:
+			box-shadow var(--anim-duration-fast) ease-in-out,
+			border var(--anim-duration-fast) ease-in-out;
+	}
+
+	// Untouched: button:focus-visible writes its ring literally rather than through
+	// --input-shadow, so keyboard focus survives. .mod-cta and .mod-warning fill
+	// from --interactive-accent and --background-modifier-error, so a flat variant
+	// of either keeps its colour and loses only the edge.
+}
+
+
+// Dropdowns are built like buttons — `select` and `.dropdown` also set `border: 0`
+// and take the same inset ring — while text inputs and textareas draw a real
+// border over the form-field fill. Each control keeps the mechanism the app gave
+// it; only the result is shared.
+.pt-input-style-flat {
+	--dropdown-background: var(--background-modifier-form-field);
+	--dropdown-background-hover: var(--background-modifier-form-field);
+
+	// Text inputs are filled from --background-modifier-form-field already. This
+	// holds that fill through hover, where the app swaps in the -hover pair —
+	// identical by default, not necessarily so in a theme.
+	--background-modifier-form-field-hover: var(--background-modifier-form-field);
+
+	--input-shadow: none;
+	--input-shadow-hover: inset 0 0 0 var(--input-border-width) var(--background-modifier-border-hover);
+
+	&:hover {
+		transition:
+			box-shadow var(--anim-duration-fast) ease-in-out,
+			border var(--anim-duration-fast) ease-in-out;
+	}
+}
+
+// The one property override in the file, for the controls that really do have a
+// border.
+//
+// It cannot be done through --background-modifier-border: a multi-select's pills
+// read their own border from that variable and would go bare along with the
+// field. And the border goes transparent rather than to zero width, so the box
+// does not move when hover paints it in — which the app's own rule does, lifting
+// border-color to --background-modifier-border-hover.
+//
+// Element-qualified to clear `input[type='text']` and the rest of that list. On
+// plain `input` it is a tie, settled by this sheet loading after the app's.
+input.pt-input-style-flat,
+textarea.pt-input-style-flat,
+.multi-select-container.pt-input-style-flat {
+	border-color: transparent;
+}

@@ -1,0 +1,97 @@
+// One status of one project, docked in a sidebar.
+//
+// Its own layout rather than the board column's: .pt-column is a bordered card
+// sized to sit beside others in a scrolling row, and this fills a leaf. The
+// cards inside are the same .community-item the board draws, so nothing about a
+// task changes between the two.
+//
+// .view-content is already height: 100% in a side split, so the column only has
+// to divide it: a header that stays, and a body that scrolls.
+
+// The app insets every view's content —
+//   .workspace-leaf-content .view-content { padding: var(--size-4-3) … }
+// — which puts the header's own band and the cards inside a gutter this view
+// does not want. Obsidian opts its own full-bleed views out of it the same way:
+// markdown, backlink and outgoing-link all set padding: 0 against that selector.
+//
+// By data-type rather than by .pt-column-view, so it clears the app's rule on
+// specificity rather than on load order, and so it cannot reach the project page
+// or the projects list — both of those are built around that padding.
+.workspace-leaf-content[data-type="project-tracker-column"] .view-content {
+	padding: 0;
+}
+
+.pt-column-view {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.pt-column-view-header {
+	flex: 0 0 auto;
+	padding: var(--size-4-2) var(--size-4-3);
+}
+
+.pt-column-view-heading {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-2);
+
+	// The first control takes the row's slack and carries the rest of them to the
+	// far end, whatever is to its left. On the count instead — the way the board
+	// column header does it — it would stop working the moment there is no count,
+	// which is exactly the unconfigured state.
+	//
+	// first-of-type, not every control: an auto margin on each would split the
+	// slack between them and pull them apart from each other. .clickable-icon is
+	// a div, so among divs the first one carries it.
+	> .clickable-icon:first-of-type {
+		margin-inline-start: auto;
+	}
+}
+
+.pt-column-view-name {
+	// Shrinks to an ellipsis in a narrow dock, but never grows: growing would
+	// push the count away from the name and against the configure button.
+	flex: 0 1 auto;
+	font-weight: var(--font-medium);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// Reads as part of the heading, set back from it — the same treatment the board
+// column's count has.
+.pt-column-view-count {
+	flex: 0 0 auto;
+	font-weight: var(--font-medium);
+	color: var(--text-faint);
+}
+
+.pt-column-view-project {
+	margin-top: var(--size-2-1);
+	color: var(--text-muted);
+	font-size: var(--font-ui-smaller);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.pt-column-view-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	padding: var(--size-4-2) var(--size-4-3);
+}
+
+// .pane-empty is the app's own empty state and centres its text; the button
+// under the message needs to be centred with it rather than stretched.
+.pt-column-view-unset {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--size-4-2);
+}

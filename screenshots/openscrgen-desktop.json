@@ -1,0 +1,816 @@
+{
+  "formatVersion": 1,
+  "id": "project_1788038394535",
+  "name": "Atelier Noir",
+  "timestamp": "2026-08-29T22:09:41.002Z",
+  "projectData": [
+    {
+      "id": "artboard-1",
+      "name": "Page 1",
+      "position": {
+        "x": 15,
+        "y": 15
+      },
+      "size": {
+        "width": 1280,
+        "height": 800
+      },
+      "elements": [
+        {
+          "id": "el_1788039227662_fdc51",
+          "type": "device",
+          "name": "iPhone",
+          "position": {
+            "x": 911.7526449168654,
+            "y": 52.164528139558456
+          },
+          "size": {
+            "width": 869.5991068504331,
+            "height": 1881.901656876322
+          },
+          "rotation": 180,
+          "scale": 0.38977903200860675,
+          "deviceType": "iphone-15-pro",
+          "styleType": "3d-right",
+          "pose3d": "front",
+          "frameColor3d": "black",
+          "screenshotSrc": "asset:asset_1788039798154_mypyq8",
+          "screenshotObjectFit": "cover",
+          "screenshotRect": {
+            "left": 0,
+            "top": 0,
+            "width": 100,
+            "height": 100
+          },
+          "naturalScreenshotWidth": 556,
+          "naturalScreenshotHeight": 547
+        },
+        {
+          "id": "Mac-8m",
+          "type": "device",
+          "name": "MacBook",
+          "position": {
+            "x": 28.07294606386064,
+            "y": 197.81669433061683
+          },
+          "size": {
+            "width": 1500,
+            "height": 1091
+          },
+          "rotation": 180,
+          "scale": 0.59,
+          "deviceType": "imac",
+          "styleType": "3d-right",
+          "pose3d": "front",
+          "frameColor3d": "black",
+          "screenshotSrc": "asset:asset_1788039793459_b8v0e9",
+          "screenshotObjectFit": "cover",
+          "screenshotRect": {
+            "left": 0,
+            "top": 0,
+            "width": 100,
+            "height": 100
+          },
+          "naturalScreenshotWidth": 556,
+          "naturalScreenshotHeight": 547
+        },
+        {
+          "id": "Script-8n",
+          "type": "text",
+          "name": "Script",
+          "position": {
+            "x": 130.59840686363708,
+            "y": 31.174393656400994
+          },
+          "size": {
+            "width": 461.88746334042486,
+            "height": 140.580142388697
+          },
+          "rotation": -6,
+          "scale": 1,
+          "content": "Made for Desktop and Mobile",
+          "fontSize": 11,
+          "color": "#FFC233",
+          "fontFamily": "Permanent Marker",
+          "fontWeight": "400",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        }
+      ],
+      "backgroundColor": "#181D25",
+      "backgroundType": "gradient",
+      "backgroundGradient": {
+        "color1": "#181D25",
+        "color2": "#0B0D10",
+        "angle": 180
+      },
+      "zoom": 1
+    },
+    {
+      "id": "artboard-2",
+      "name": "Page 2",
+      "position": {
+        "x": 414,
+        "y": 15
+      },
+      "size": {
+        "width": 1280,
+        "height": 800
+      },
+      "elements": [
+        {
+          "id": "Headline-8p",
+          "type": "text",
+          "name": "Headline",
+          "position": {
+            "x": 82.44074847761578,
+            "y": 42.006160408078
+          },
+          "size": {
+            "width": 1100,
+            "height": 130
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Flexible design inspired by Atlassian and GiHub's Project Management",
+          "fontSize": 15,
+          "color": "#F4F5F7",
+          "fontFamily": "Helvetica",
+          "fontWeight": "400",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Card-8q",
+          "type": "shape",
+          "name": "Card",
+          "position": {
+            "x": 130,
+            "y": 280
+          },
+          "size": {
+            "width": 620,
+            "height": 260
+          },
+          "rotation": 0,
+          "scale": 0.5,
+          "shapeType": "rectangle",
+          "fillColor": "#1D2129",
+          "strokeColor": "#3A4150",
+          "strokeWidth": 2,
+          "borderRadius": 20,
+          "borderRadiusType": "uniform"
+        },
+        {
+          "id": "C1 title-8r",
+          "type": "text",
+          "name": "C1 title",
+          "position": {
+            "x": 150,
+            "y": 284.25
+          },
+          "size": {
+            "width": 250.52775065104169,
+            "height": 56
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Customise Projects",
+          "fontSize": 7,
+          "color": "#F4F5F7",
+          "fontFamily": "DM Serif Display",
+          "fontWeight": "400",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "C1 sub-8s",
+          "type": "text",
+          "name": "C1 sub",
+          "position": {
+            "x": 150,
+            "y": 332.5
+          },
+          "size": {
+            "width": 200,
+            "height": 22.5
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Individually Configured",
+          "fontSize": 4.5,
+          "color": "#FFC233",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "C1 desc-8t",
+          "type": "text",
+          "name": "C1 desc",
+          "position": {
+            "x": 150,
+            "y": 349.75
+          },
+          "size": {
+            "width": 270,
+            "height": 47.444427490234375
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Control task status, label and additional properties.",
+          "fontSize": 4.5,
+          "color": "#98A0AC",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Card-8u",
+          "type": "shape",
+          "name": "Card",
+          "position": {
+            "x": 130,
+            "y": 425
+          },
+          "size": {
+            "width": 620,
+            "height": 260
+          },
+          "rotation": 0,
+          "scale": 0.5,
+          "shapeType": "rectangle",
+          "fillColor": "#1D2129",
+          "strokeColor": "#3A4150",
+          "strokeWidth": 2,
+          "borderRadius": 20,
+          "borderRadiusType": "uniform"
+        },
+        {
+          "id": "C2 title-8v",
+          "type": "text",
+          "name": "C2 title",
+          "position": {
+            "x": 150,
+            "y": 440
+          },
+          "size": {
+            "width": 288.3055114746094,
+            "height": 34.5
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Board and Table Layouts",
+          "fontSize": 7,
+          "color": "#F4F5F7",
+          "fontFamily": "DM Serif Display",
+          "fontWeight": "400",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "C2 sub-8w",
+          "type": "text",
+          "name": "C2 sub",
+          "position": {
+            "x": 150,
+            "y": 477.5
+          },
+          "size": {
+            "width": 200,
+            "height": 22.5
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "A view for everything.",
+          "fontSize": 4.5,
+          "color": "#FFC233",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "C2 desc-8x",
+          "type": "text",
+          "name": "C2 desc",
+          "position": {
+            "x": 150,
+            "y": 502.5
+          },
+          "size": {
+            "width": 270,
+            "height": 38.55550130208337
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Control the sorting, filtering and grouping of each individual view.",
+          "fontSize": 4.5,
+          "color": "#98A0AC",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Card-8y",
+          "type": "shape",
+          "name": "Card",
+          "position": {
+            "x": 130,
+            "y": 570
+          },
+          "size": {
+            "width": 620,
+            "height": 260
+          },
+          "rotation": 0,
+          "scale": 0.5,
+          "shapeType": "rectangle",
+          "fillColor": "#1D2129",
+          "strokeColor": "#3A4150",
+          "strokeWidth": 2,
+          "borderRadius": 20,
+          "borderRadiusType": "uniform"
+        },
+        {
+          "id": "C3 title-8z",
+          "type": "text",
+          "name": "C3 title",
+          "position": {
+            "x": 150,
+            "y": 585
+          },
+          "size": {
+            "width": 200,
+            "height": 34.5
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Own Your Data",
+          "fontSize": 7,
+          "color": "#F4F5F7",
+          "fontFamily": "DM Serif Display",
+          "fontWeight": "400",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "C3 sub-90",
+          "type": "text",
+          "name": "C3 sub",
+          "position": {
+            "x": 150,
+            "y": 622.5
+          },
+          "size": {
+            "width": 200,
+            "height": 22.5
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Fully file driven",
+          "fontSize": 4.5,
+          "color": "#FFC233",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "C3 desc-91",
+          "type": "text",
+          "name": "C3 desc",
+          "position": {
+            "x": 150,
+            "y": 639.75
+          },
+          "size": {
+            "width": 270,
+            "height": 51.6944580078125
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "All projects and tasks are migratable markdown files.",
+          "fontSize": 4.5,
+          "color": "#98A0AC",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "left",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "el_1788039907942_38nmk",
+          "type": "device",
+          "name": "MacBook",
+          "position": {
+            "x": 404.9792812409209,
+            "y": 254.8845325554219
+          },
+          "size": {
+            "width": 1500,
+            "height": 1091
+          },
+          "rotation": 180,
+          "scale": 0.5744345744464786,
+          "deviceType": "imac",
+          "styleType": "3d-right",
+          "pose3d": "front",
+          "frameColor3d": "black",
+          "screenshotSrc": "asset:asset_1788039793459_b8v0e9",
+          "screenshotObjectFit": "cover",
+          "screenshotRect": {
+            "left": 0,
+            "top": 0,
+            "width": 100,
+            "height": 100
+          },
+          "naturalScreenshotWidth": 556,
+          "naturalScreenshotHeight": 547
+        }
+      ],
+      "backgroundColor": "#181D25",
+      "backgroundType": "gradient",
+      "backgroundGradient": {
+        "color1": "#181D25",
+        "color2": "#0B0D10",
+        "angle": 180
+      },
+      "zoom": 1
+    },
+    {
+      "id": "artboard-5",
+      "name": "Page 3",
+      "position": {
+        "x": 813,
+        "y": 15
+      },
+      "size": {
+        "width": 1280,
+        "height": 800
+      },
+      "elements": [
+        {
+          "id": "Headline-9x",
+          "type": "text",
+          "name": "Headline",
+          "position": {
+            "x": 91.44082614206991,
+            "y": 37.27917349523243
+          },
+          "size": {
+            "width": 1100,
+            "height": 130
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Structure projects as simple or advanced layouts.",
+          "fontSize": 15,
+          "color": "#F4F5F7",
+          "fontFamily": "Helvetica",
+          "fontWeight": "400",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Card-9y",
+          "type": "shape",
+          "name": "Card",
+          "position": {
+            "x": 330,
+            "y": 280
+          },
+          "size": {
+            "width": 560,
+            "height": 300
+          },
+          "rotation": 0,
+          "scale": 0.5,
+          "shapeType": "rectangle",
+          "fillColor": "#1D2129",
+          "strokeColor": "#3A4150",
+          "strokeWidth": 2,
+          "borderRadius": 20,
+          "borderRadiusType": "uniform"
+        },
+        {
+          "id": "S1 n-9z",
+          "type": "text",
+          "name": "S1 n",
+          "position": {
+            "x": 330,
+            "y": 295
+          },
+          "size": {
+            "width": 280,
+            "height": 54
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Status Types",
+          "fontSize": 11,
+          "color": "#FFC233",
+          "fontFamily": "DM Serif Display",
+          "fontWeight": "400",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "S1 c-a0",
+          "type": "text",
+          "name": "S1 c",
+          "position": {
+            "x": 348.41664632161456,
+            "y": 348.9444478352865
+          },
+          "size": {
+            "width": 240.80556233723968,
+            "height": 73.72220357259107
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Create more status types and assign additional rules. Such as auto archive completed tasks.",
+          "fontSize": 4,
+          "color": "#98A0AC",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Card-a1",
+          "type": "shape",
+          "name": "Card",
+          "position": {
+            "x": 670,
+            "y": 280
+          },
+          "size": {
+            "width": 560,
+            "height": 300
+          },
+          "rotation": 0,
+          "scale": 0.5,
+          "shapeType": "rectangle",
+          "fillColor": "#1D2129",
+          "strokeColor": "#3A4150",
+          "strokeWidth": 2,
+          "borderRadius": 20,
+          "borderRadiusType": "uniform"
+        },
+        {
+          "id": "S2 n-a2",
+          "type": "text",
+          "name": "S2 n",
+          "position": {
+            "x": 670,
+            "y": 295
+          },
+          "size": {
+            "width": 280,
+            "height": 54
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Labeling",
+          "fontSize": 11,
+          "color": "#FFC233",
+          "fontFamily": "DM Serif Display",
+          "fontWeight": "400",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "S2 c-a3",
+          "type": "text",
+          "name": "S2 c",
+          "position": {
+            "x": 692.6666259765625,
+            "y": 358.8611094156901
+          },
+          "size": {
+            "width": 238.44451904296875,
+            "height": 53.888880411783816
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Separate your tasks by labels to track anything such as bugs, or features.",
+          "fontSize": 4,
+          "color": "#98A0AC",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Card-a4",
+          "type": "shape",
+          "name": "Card",
+          "position": {
+            "x": 330,
+            "y": 450
+          },
+          "size": {
+            "width": 560,
+            "height": 300
+          },
+          "rotation": 0,
+          "scale": 0.5,
+          "shapeType": "rectangle",
+          "fillColor": "#1D2129",
+          "strokeColor": "#3A4150",
+          "strokeWidth": 2,
+          "borderRadius": 20,
+          "borderRadiusType": "uniform"
+        },
+        {
+          "id": "S3 n-a5",
+          "type": "text",
+          "name": "S3 n",
+          "position": {
+            "x": 330,
+            "y": 449
+          },
+          "size": {
+            "width": 280,
+            "height": 86
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Custom Fields",
+          "fontSize": 11,
+          "color": "#FFC233",
+          "fontFamily": "DM Serif Display",
+          "fontWeight": "400",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "S3 c-a6",
+          "type": "text",
+          "name": "S3 c",
+          "position": {
+            "x": 348.8889567057292,
+            "y": 528
+          },
+          "size": {
+            "width": 240.33325195312494,
+            "height": 59.38889567057299
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Define custom fields in project configuration, that are generate in the tasks property markdown.",
+          "fontSize": 4,
+          "color": "#98A0AC",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Card-a7",
+          "type": "shape",
+          "name": "Card",
+          "position": {
+            "x": 670,
+            "y": 450
+          },
+          "size": {
+            "width": 560,
+            "height": 300
+          },
+          "rotation": 0,
+          "scale": 0.5,
+          "shapeType": "rectangle",
+          "fillColor": "#1D2129",
+          "strokeColor": "#3A4150",
+          "strokeWidth": 2,
+          "borderRadius": 20,
+          "borderRadiusType": "uniform"
+        },
+        {
+          "id": "S4 n-a8",
+          "type": "text",
+          "name": "S4 n",
+          "position": {
+            "x": 670,
+            "y": 465
+          },
+          "size": {
+            "width": 280,
+            "height": 54
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Complete UX",
+          "fontSize": 11,
+          "color": "#FFC233",
+          "fontFamily": "DM Serif Display",
+          "fontWeight": "400",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "S4 c-a9",
+          "type": "text",
+          "name": "S4 c",
+          "position": {
+            "x": 684.1666666666667,
+            "y": 528
+          },
+          "size": {
+            "width": 251.66666666666663,
+            "height": 49
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Working from source files is optional, this plugin can handle everything from its Custom UI",
+          "fontSize": 4,
+          "color": "#98A0AC",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "500",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Private-ab",
+          "type": "text",
+          "name": "Private",
+          "position": {
+            "x": 90,
+            "y": 665
+          },
+          "size": {
+            "width": 1100,
+            "height": 29.5
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "Works with Sync",
+          "fontSize": 6,
+          "color": "#F4F5F7",
+          "fontFamily": "Bricolage Grotesque",
+          "fontWeight": "700",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        },
+        {
+          "id": "Script-ac",
+          "type": "text",
+          "name": "Script",
+          "position": {
+            "x": 90,
+            "y": 705
+          },
+          "size": {
+            "width": 1100,
+            "height": 25
+          },
+          "rotation": 0,
+          "scale": 1,
+          "content": "all important files are markdown based in your vault.",
+          "fontSize": 5,
+          "color": "#FFC233",
+          "fontFamily": "Permanent Marker",
+          "fontWeight": "400",
+          "textAlign": "center",
+          "lineHeight": 1.12
+        }
+      ],
+      "backgroundColor": "#181D25",
+      "backgroundType": "gradient",
+      "backgroundGradient": {
+        "color1": "#181D25",
+        "color2": "#0B0D10",
+        "angle": 180
+      },
+      "zoom": 1
+    }
+  ],
+  "media": [
+    {
+      "id": "asset_1788039798154_mypyq8",
+      "name": "Untitled.png",
+      "mimeType": "image/png",
+      "width": 556,
+      "height": 547,
+      "createdAt": "2026-08-29T21:43:18.154Z",
+      "size": 2531
+    },
+    {
+      "id": "asset_1788039793459_b8v0e9",
+      "name": "Untitled.png",
+      "mimeType": "image/png",
+      "width": 556,
+      "height": 547,
+      "createdAt": "2026-08-29T21:43:13.459Z",
+      "size": 2531
+    }
+  ],
+  "mediaData": {
+    "asset_1788039798154_mypyq8": "iVBORw0KGgoAAAANSUhEUgAAAiwAAAIjCAYAAAAgIUA8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAl4SURBVHhe7dYhAQAgEMDAL0gcwqPAk2DixJkl2OyzLgBA2fwBAKDGsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHkP2wLwsuXT1FEAAAAASUVORK5CYII=",
+    "asset_1788039793459_b8v0e9": "iVBORw0KGgoAAAANSUhEUgAAAiwAAAIjCAYAAAAgIUA8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAl4SURBVHhe7dYhAQAgEMDAL0gcwqPAk2DixJkl2OyzLgBA2fwBAKDGsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHmGBQDIMywAQJ5hAQDyDAsAkGdYAIA8wwIA5BkWACDPsAAAeYYFAMgzLABAnmEBAPIMCwCQZ1gAgDzDAgDkGRYAIM+wAAB5hgUAyDMsAECeYQEA8gwLAJBnWACAPMMCAOQZFgAgz7AAAHkP2wLwsuXT1FEAAAAASUVORK5CYII="
+  }
+}

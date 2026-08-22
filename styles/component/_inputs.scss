@@ -1,0 +1,37 @@
+// Form controls, across every surface the plugin draws.
+//
+// Scoped to .pt-modal and .pt-project-page so nothing here reaches the app's own
+// dialogs or panes.
+
+// DEVIATION: Obsidian lists input types twice — once for the background,
+// border and padding, which includes date and datetime-local, and once for
+// `height: var(--input-height)`, which does not. A date input therefore looks
+// like a text input but sizes itself from the browser's intrinsic date widget,
+// leaving it a couple of pixels short of everything beside it. This evens them
+// up. It reads as an oversight in the app rather than an intention, but it is
+// still an override.
+.pt-modal,
+.pt-project-page {
+	input[type="date"],
+	input[type="datetime-local"] {
+		height: var(--input-height);
+	}
+}
+
+// DEVIATION: a disabled button keeps its label at full strength.
+//
+// Obsidian dims the whole control with `opacity: 0.7`, which is enough to shift
+// the fill but leaves the text reading as live — in a group, a disabled segment
+// then looks the same as its neighbours. This takes the label to half, which
+// compounds with the app's 0.7 for roughly a third of full strength.
+//
+// `color` rather than a redefined --text-color: the variable cannot be written
+// in terms of itself, and leaving it intact means each variant keeps its own
+// base colour to be mixed from.
+.pt-modal,
+.pt-project-page {
+	button:disabled,
+	button[aria-disabled="true"] {
+		color: color-mix(in srgb, var(--text-color) 50%, transparent);
+	}
+}

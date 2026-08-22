@@ -1,0 +1,289 @@
+// Projects list view.
+//
+// The cards, their grid and the empty state are Obsidian's own —
+// .community-item and .community-modal-search-results from the plugin browser,
+// .pane-empty for the empty case — so nothing here restyles them.
+
+.pt-list-view {
+	overflow: auto;
+}
+
+.pt-list-header {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	padding: var(--size-4-3) var(--size-4-3) 0;
+}
+
+.pt-list-header-title {
+	flex: 1 1 auto;
+	margin: 0;
+}
+
+// The plugin browser's card has no icon slot, and a project's own icon is worth
+// showing. Scoped to this view so the real plugin browser is untouched.
+.pt-list-view .community-item-name {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-3);
+}
+
+// .community-item-desc carries no colour of its own, so it reads at the same
+// weight as the name above it. Faint puts it behind the name, which is the thing
+// being scanned for.
+.pt-list-view .community-item-desc {
+	color: var(--text-faint);
+}
+
+// The icon carries the project's colour, so a card is identifiable before its
+// name is read. line-height: 0 because the span has no text of its own — its
+// line box would otherwise be taller than the glyph and push the row.
+.pt-card-icon {
+	line-height: 0;
+	color: var(--pt-card-color, var(--text-muted));
+}
+
+// Cards on a phone.
+//
+// Obsidian rounds a mobile card to --touch-radius-xxs, which is --touch-size-xxs
+// — 24px, a radius sized for a tap target rather than for a tile. Back to the
+// radius the same card has on a desktop, which is the line the rest of the
+// plugin's mobile shapes already take.
+//
+// Page only: the dock draws the same card and was not asked about.
+body.is-mobile .workspace-split.mod-root .pt-list-view .community-item {
+	border-radius: var(--radius-m);
+}
+
+// The gutter, on the page.
+//
+// Two of them were stacking: the app's own --size-4-3 on .view-content, and the
+// grid's own — which on a phone is --size-4-4, not the --size-4-3 the wider
+// screens get — so a card sat 32px off the edge of a ~390px screen. The view's
+// comes off and the grid is brought back to --size-4-3, so the cards line up
+// with the 12px the header uses.
+body.is-mobile .workspace-split.mod-root .pt-list-view {
+	padding-top: 0;
+	padding-inline: 0;
+}
+
+body.is-mobile .workspace-split.mod-root .pt-list-view .community-modal-search-results {
+	padding: var(--size-4-3);
+}
+
+// Room for the navbar.
+//
+// On the view itself, and a margin rather than padding. Both halves of that
+// matter and both were got wrong first:
+//
+//   - padding-bottom on this element does nothing, because it is the scroller
+//     and WebKit drops a scroll container's bottom padding from the scrollable
+//     region;
+//   - a margin on the last child inside it does nothing either, because that
+//     only lengthens the content, and the content is already longer than the
+//     screen. The scroller still ends where it always did.
+//
+// A margin here shortens the scroller's own box inside the leaf, so the view
+// stops above the navbar instead of running to the bottom of the screen and
+// being covered by it.
+//
+// The value is the project page's, to the pixel — see _view-chrome.scss, where
+// the same clearance is padding because that element is not the scroller. Only
+// the property and the element ever differed between the two; the measure is
+// one measure, and --view-bottom-spacing is the app's own answer to it.
+body.is-mobile .pt-list-view {
+	margin-bottom: calc(var(--view-bottom-spacing) + var(--size-4-4));
+	padding-bottom: 0px;
+}
+
+// The project's colour on the card, on the full page only.
+//
+// mod-root is the main area. In the dock the cards are already a single stacked
+// column read top to bottom; on a page of tiles the colour is what tells them
+// apart at a glance.
+.workspace-split.mod-root .pt-list-view .community-item {
+	// The app's own border, in the project's colour. 2px is literal because
+	// --border-width is the app's 1px and there is no token for twice it — the
+	// value is the point, not a relationship to something else.
+	border: 2px solid var(--pt-card-color);
+}
+
+// Docked in a sidebar.
+//
+// The app insets every view's content —
+//   .workspace-leaf-content .view-content { padding: var(--size-4-3) … }
+// — with 32px reserved at the bottom. That gutter is worth its width on a full
+// page and not in a dock, so it comes off there and the grid carries its own,
+// matched to the inset the header already sets for itself.
+//
+// Scoped to the side splits rather than to the view type, because this view is
+// the projects page as well as the dock and the page is built around that
+// padding. Named splits rather than :not(.mod-root): the main area nests further
+// splits inside itself that carry no mod-root of their own.
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split {
+	.workspace-leaf-content[data-type="project-tracker-list"] .view-content {
+		padding: 0;
+	}
+
+	// The task dock's spacing, which is tighter than the plugin browser's and is
+	// what a docked column wants: 8px/12px around, 8px between. The app's grid
+	// gap is 12px, sized for a page of tiles rather than a narrow list.
+	.pt-list-view .pt-list-header {
+		padding: var(--size-4-2) var(--size-4-3);
+	}
+
+	// A bare h2 is --h2-size, 1.462em, which is a page title in a column this
+	// narrow. Obsidian sizes its own h2 down the same way wherever one heads a
+	// panel rather than a document: .vertical-tab-content h2 is --font-ui-medium
+	// at --font-semibold.
+	.pt-list-view .pt-list-header-title {
+		font-size: var(--font-ui-medium);
+		font-weight: var(--font-semibold);
+	}
+
+	.pt-list-view .community-modal-search-results {
+		// One per row, whatever the dock is widened to. The app's grid is
+		// auto-fill at a 240px minimum, which is right for a page browsing many
+		// plugins and wrong for a list being scanned down: a second column halves
+		// the name each card can show and buys a row of vertical space back.
+		grid-template-columns: 1fr;
+
+		gap: var(--size-4-2);
+		padding: var(--size-4-2) var(--size-4-3);
+	}
+}
+
+// ---------- the page's card width ----------
+//
+// ADJUST HERE. These two are the whole knob for how wide a project card is.
+//
+// The grid is Obsidian's .community-modal-search-results, which is auto-fill at
+// minmax(240px, 1fr) — sized for the plugin browser, where a card is a name and
+// a line of prose. A project card carries a description and a status breakdown
+// under it, so it is given room and the row fits fewer of them.
+//
+// Page only. The dock overrides the same grid to a single column above, and a
+// 380px minimum there would push a card wider than the sidebar.
+.workspace-split.mod-root .pt-list-view .community-modal-search-results {
+	/* Narrowest a card may be before the row drops to fewer columns. */
+	--pt-card-min: 380px;
+	/* Widest. 1fr lets a card take its share of the leftover width; a length
+	   here caps it and leaves the remainder as a gap at the end of the row. */
+	--pt-card-max: 1fr;
+
+	/* min(…, 100%) rather than the minimum on its own. A grid track holds its
+	   minimum whether or not there is room for it, so on a phone — where this
+	   rule still applies, the page being in the main area there too — a 380px
+	   card sat in a ~366px column and pushed the page sideways. Capped at the
+	   width available, the track simply becomes one full-width column, which is
+	   what a narrow screen wanted anyway. It covers a squeezed desktop pane by
+	   the same arithmetic, rather than only the case that was reported. */
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(min(var(--pt-card-min), 100%), var(--pt-card-max))
+	);
+}
+
+// What the project is made of, under the description: one entry per status that
+// has tasks, in the order the config lists them.
+//
+// One to a line. Wrapped across the card they read as a run-on of names and
+// numbers with no column to scan down; stacked, the counts line up under each
+// other and the card is a list of what is in the project.
+.pt-card-statuses {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--size-2-1);
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+
+	// Held at the foot of the card. Grid rows stretch their cards to the tallest
+	// in the row, so a project with a short description used to leave its slack
+	// underneath the counts — an auto margin in a flex column takes that slack
+	// instead, and the space lands between the description and the counts where
+	// it separates two things rather than trailing off the bottom of one.
+	//
+	// The gap above is padding, not the margin it replaces: an auto margin
+	// resolves to zero once the card is full, and the counts would then sit
+	// straight against the description.
+	margin-top: auto;
+	padding-top: var(--size-2-3);
+}
+
+.pt-card-status {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-2-2);
+	white-space: nowrap;
+
+	// The dot carries a left margin for the contexts it was written for, where
+	// it follows text inside a pill. Here it starts the entry.
+	.pt-status-dot {
+		margin-left: 0;
+	}
+
+	// Nothing in the project yet. Faint rather than absent: an empty project is
+	// a state worth seeing, and a missing row reads as a card still loading.
+	&.is-empty {
+		color: var(--text-faint);
+	}
+}
+
+// The number is the thing being scanned for, so it sits at normal weight while
+// the status name it belongs to stays muted.
+.pt-card-status-count {
+	color: var(--text-normal);
+	font-variant-numeric: tabular-nums;
+}
+
+// ---------- reordering the page ----------
+//
+// No grip. A handle in the corner of every tile is a permanent mark on a page
+// whose whole point is that it is a clean wall of them, so the tile itself is
+// what drags and the affordance is what happens once one does.
+//
+// The grid carries .pt-sortable only on the page — the dock renders the same
+// cards and never gets the class, so nothing there can be caught by a
+// transition meant for a drag it cannot start. See ProjectsListView.sortable.
+
+// What makes the other tiles slide. SortableGrid puts each one back where it
+// looked like it was with the transition off, then hands both properties back
+// to this rule, and this is the duration they travel over.
+//
+// transform alone: the tiles are in a grid, and animating the layout itself
+// would mean animating grid placement, which does not transition.
+.pt-sortable .community-item {
+	transition: transform 180ms ease;
+}
+
+// The tile being dragged, which is also the slot it would land in — it is
+// re-inserted as the pointer moves, so the outline is always the answer to
+// "where will this go".
+//
+// Emptied rather than removed, so it holds the exact size of the card that is
+// in it and the grid it is opening a space in stays honest about how big that
+// space is.
+.pt-sortable .community-item.is-placeholder {
+	background-color: transparent;
+	box-shadow: none;
+	// Same width as the solid border it replaces, so nothing shifts by a pixel
+	// when the style changes.
+	border: var(--border-width) dashed var(--text-faint);
+
+	// visibility, not display: the contents stop being drawn but keep taking up
+	// the room that decided how big this tile is.
+	> * {
+		visibility: hidden;
+	}
+}
+
+// The sliding is an affordance, not information — the arrangement is legible
+// without it. Anyone who has asked not to be moved at gets the same reordering
+// with the tiles simply arriving where they belong.
+@media (prefers-reduced-motion: reduce) {
+	.pt-sortable .community-item {
+		transition: none;
+	}
+}
