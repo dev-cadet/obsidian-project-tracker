@@ -11,6 +11,10 @@ on:
         description: "Version to release, e.g. 1.0.1 (no v prefix)"
         required: true
         type: string
+      summary:
+        description: "One line about this release. Appears above the generated notes."
+        required: false
+        type: string
 
 permissions:
   contents: write # commit the bump, push the tag, publish the release
@@ -21,11 +25,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # These majors run on Node 24. The v4/v5 lines target Node 20, which the
+      # runners now force onto 24 and warn about.
+      - uses: actions/checkout@v7
 
-      # Pinned so the reviewer's rebuild matches ours. esbuild comes from the
-      # committed lockfile, which is what actually shapes main.js.
-      - uses: actions/setup-node@v4
+      # Pins the runtime that builds the release. sass sets the real floor at
+      # 20.19; this matches the machine the plugin is developed on.
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
           cache: npm
@@ -67,19 +73,33 @@ jobs:
           git push origin "$VERSION"
 
       - name: Attest the build
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: |
             main.js
             styles.css
 
       # The three files the installer fetches by name, as individual assets.
+      #
+      # --notes with --generate-notes is not a conflict: the API pre-pends the
+      # body to the notes it generates, so the summary reads as a lead paragraph
+      # above the commit list. Omitted entirely when nothing was typed, rather
+      # than pre-pending a blank line.
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ inputs.version }}
+          SUMMARY: ${{ inputs.summary }}
         run: |
-          gh release create "$VERSION" \
-            main.js manifest.json styles.css \
-            --title "$VERSION" \
-            --generate-notes
+          if [ -n "$SUMMARY" ]; then
+            gh release create "$VERSION" \
+              main.js manifest.json styles.css \
+              --title "$VERSION" \
+              --notes "$SUMMARY" \
+              --generate-notes
+          else
+            gh release create "$VERSION" \
+              main.js manifest.json styles.css \
+              --title "$VERSION" \
+              --generate-notes
+          fi
