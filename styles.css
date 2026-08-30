@@ -9,10 +9,10 @@ body.is-mobile .pt-project-page {
   padding-bottom: calc(var(--view-bottom-spacing) + var(--size-4-2));
 }
 
-body:has(.workspace-split.mod-root .workspace-leaf.mod-active .workspace-leaf-content[data-type^=project-tracker-]) .status-bar-item.plugin-backlink,
-body:has(.workspace-split.mod-root .workspace-leaf.mod-active .workspace-leaf-content[data-type^=project-tracker-]) .status-bar-item.plugin-editor-status,
-body:has(.workspace-split.mod-root .workspace-leaf.mod-active .workspace-leaf-content[data-type^=project-tracker-]) .status-bar-item.plugin-properties,
-body:has(.workspace-split.mod-root .workspace-leaf.mod-active .workspace-leaf-content[data-type^=project-tracker-]) .status-bar-item.plugin-word-count {
+body.pt-view-active .status-bar-item.plugin-backlink,
+body.pt-view-active .status-bar-item.plugin-editor-status,
+body.pt-view-active .status-bar-item.plugin-properties,
+body.pt-view-active .status-bar-item.plugin-word-count {
   display: none;
 }
 

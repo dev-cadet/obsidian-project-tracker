@@ -49,21 +49,17 @@ body.is-mobile {
 // that matters — anything not listed here stays visible, and the list grows on
 // purpose rather than by default.
 //
-// :has on body because the status bar is a sibling of the workspace, not
-// anything inside the leaf; mod-active so it only applies while a project page
-// is the leaf being looked at.
+// The class comes from markPluginView in main.ts, which sets it while the main
+// area's leaf is one of the plugin's. This was a `body:has(...)` selector
+// reaching into the workspace, which the directory review flags: :has on body
+// with a deep descendant is re-evaluated on essentially any DOM change.
 //
-// mod-root restricts that to the main area. A docked column is a plugin view
-// too, and clicking into one must not take the word count off a note being
-// edited beside it.
+// A class on body rather than on the leaf because the status bar is a sibling of
+// the workspace, not anything inside it.
 //
 // No !important needed: the core plugins that own these items clear their inline
 // display rather than setting one, so a stylesheet rule still wins.
-body:has(
-		.workspace-split.mod-root
-			.workspace-leaf.mod-active
-			.workspace-leaf-content[data-type^="project-tracker-"]
-	) {
+body.pt-view-active {
 	.status-bar-item.plugin-backlink,
 	.status-bar-item.plugin-editor-status,
 	.status-bar-item.plugin-properties,

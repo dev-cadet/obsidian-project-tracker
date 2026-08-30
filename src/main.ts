@@ -17,6 +17,15 @@ const AUTO_STATUS_INTERVAL_MS = 6 * 60 * 60 * 1000;
 const wait = (ms: number): Promise<void> =>
 	new Promise((resolve) => window.setTimeout(resolve, ms));
 
+/** On `body` while the main area shows a plugin view. See markPluginView. */
+const PLUGIN_VIEW_CLASS = "pt-view-active";
+
+const PLUGIN_VIEWS = new Set<string>([
+	VIEW_TYPE_PROJECT,
+	VIEW_TYPE_PROJECT_LIST,
+	VIEW_TYPE_COLUMN,
+]);
+
 export default class ProjectTrackerPlugin extends Plugin {
 	declare settings: ProjectTrackerSettings;
 	store!: ProjectStore;
@@ -53,6 +62,43 @@ export default class ProjectTrackerPlugin extends Plugin {
 		this.registerInterval(
 			window.setInterval(() => void this.runAutoStatusChange(), AUTO_STATUS_INTERVAL_MS)
 		);
+
+		this.registerEvent(
+			this.app.workspace.on("active-leaf-change", () => this.markPluginView())
+		);
+		// A leaf dragged between the main area and a sidebar, or closed, changes
+		// what the main area is showing without changing which leaf is active.
+		this.registerEvent(
+			this.app.workspace.on("layout-change", () => this.markPluginView())
+		);
+		this.app.workspace.onLayoutReady(() => this.markPluginView());
+	}
+
+	onunload(): void {
+		// registerEvent unhooks the listeners; the class is this plugin's mark on
+		// an element it does not own, so it has to be taken off by hand.
+		document.body.removeClass(PLUGIN_VIEW_CLASS);
+	}
+
+	/**
+	 * Flags the body while the main area is showing one of the plugin's views, so
+	 * the stylesheet can hide the status-bar items that only mean something for a
+	 * note — word count, backlinks, properties, editor status.
+	 *
+	 * A class rather than the `body:has(...)` selector this replaces. That
+	 * selector had to be re-evaluated on essentially any DOM change anywhere in
+	 * the app, which the directory review flags as a performance hazard.
+	 *
+	 * Keyed to the main area's most recent leaf rather than the focused one, so
+	 * clicking into a sidebar does not flicker the status bar back: the board is
+	 * still what the main area is showing. A docked column is not the main area
+	 * and never triggers this, which was the point of the `.mod-root` in the
+	 * selector it replaces.
+	 */
+	private markPluginView(): void {
+		const leaf = this.app.workspace.getMostRecentLeaf(this.app.workspace.rootSplit);
+		const type = leaf?.view.getViewType();
+		document.body.toggleClass(PLUGIN_VIEW_CLASS, PLUGIN_VIEWS.has(type ?? ""));
 	}
 
 	private registerCommands(): void {
