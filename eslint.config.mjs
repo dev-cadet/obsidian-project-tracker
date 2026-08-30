@@ -21,6 +21,7 @@ export default defineConfig([
 			"tests/**",
 			"node_modules/**",
 			"esbuild.config.mjs",
+			"version-bump.mjs",
 			"tmp/**",
 		],
 	},

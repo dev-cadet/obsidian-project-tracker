@@ -1,6 +1,6 @@
 {
   "name": "project-tracker",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "GitHub Projects-style boards for Obsidian",
   "private": true,
   "scripts": {
@@ -13,7 +13,6 @@
   "devDependencies": {
     "@types/node": "^22.10.2",
     "@typescript-eslint/parser": "^8.67.0",
-    "builtin-modules": "^4.0.0",
     "esbuild": "^0.24.2",
     "eslint": "^9.39.5",
     "eslint-plugin-obsidianmd": "^0.4.1",

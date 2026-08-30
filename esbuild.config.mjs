@@ -1,6 +1,8 @@
 import esbuild from "esbuild";
 import process from "node:process";
-import builtins from "builtin-modules";
+// Node's own list, rather than the builtin-modules package: same content, one
+// fewer dependency, and nothing to audit.
+import { builtinModules as builtins } from "node:module";
 import * as sass from "sass";
 import { watch, writeFileSync } from "node:fs";
 

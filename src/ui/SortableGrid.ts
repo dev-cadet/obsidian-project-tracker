@@ -138,8 +138,10 @@ export class SortableGrid {
 
 			// Back to where it looked like it was, with no transition to animate
 			// getting there.
-			tile.style.transition = "none";
-			tile.style.transform = `translate(${dx}px, ${dy}px)`;
+			tile.setCssStyles({
+				transition: "none",
+				transform: `translate(${dx}px, ${dy}px)`,
+			});
 			moved.push(tile);
 		}
 		if (!moved.length) return;
@@ -151,8 +153,8 @@ export class SortableGrid {
 
 		for (const tile of moved) {
 			// Both back to the stylesheet, which is what carries the duration.
-			tile.style.transition = "";
-			tile.style.transform = "";
+			// An empty value clears the inline declaration rather than setting it.
+			tile.setCssStyles({ transition: "", transform: "" });
 		}
 	}
 
