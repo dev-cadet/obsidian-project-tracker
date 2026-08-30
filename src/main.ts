@@ -38,6 +38,8 @@ export default class ProjectTrackerPlugin extends Plugin {
 	 * changed by only one of them, so the rest have to be told.
 	 */
 	private settingsListeners = new Set<() => void>();
+	/** Held so an open tab can be refreshed when settings arrive from elsewhere. */
+	private settingTab!: ProjectTrackerSettingTab;
 
 	async onload(): Promise<void> {
 		await this.loadSettings();
@@ -50,7 +52,8 @@ export default class ProjectTrackerPlugin extends Plugin {
 		this.registerView(VIEW_TYPE_COLUMN, (leaf) => new ColumnView(leaf, this));
 
 		this.addRibbonIcon("folder-kanban", "Projects", () => void this.openProjectList());
-		this.addSettingTab(new ProjectTrackerSettingTab(this.app, this));
+		this.settingTab = new ProjectTrackerSettingTab(this.app, this);
+		this.addSettingTab(this.settingTab);
 		this.registerCommands();
 
 		this.app.workspace.onLayoutReady(() => {
@@ -357,6 +360,25 @@ export default class ProjectTrackerPlugin extends Plugin {
 		this.settings = settings;
 	}
 
+	/**
+	 * Obsidian calls this when data.json is changed on disk from outside the app
+	 * — Sync landing an edit made on another device, most of the time.
+	 *
+	 * Without it the file on the other device was correct and nothing read it:
+	 * settings are loaded once at startup, and the listeners below only fire on a
+	 * *local* save. So a project order dragged on one machine sat in the file and
+	 * did not reach the second one until a reload. That was true of every
+	 * setting; the order is just the one that changes often enough to notice.
+	 *
+	 * The file wins outright. Settings here are small and independent, there is
+	 * no in-memory edit in flight worth defending, and last-write-wins is what a
+	 * synced file already is.
+	 */
+	async onExternalSettingsChange(): Promise<void> {
+		await this.loadSettings();
+		this.notifySettingsChange();
+	}
+
 	/** Mirrors store.onChange, for the things the store does not hold. */
 	onSettingsChange(listener: () => void): () => void {
 		this.settingsListeners.add(listener);
@@ -365,6 +387,17 @@ export default class ProjectTrackerPlugin extends Plugin {
 
 	async saveSettings(): Promise<void> {
 		await this.saveData(this.settings);
+		this.notifySettingsChange();
+	}
+
+	/**
+	 * Tell everything that reads settings to look again — whether the change came
+	 * from this device or arrived on disk from another one.
+	 */
+	private notifySettingsChange(): void {
 		for (const listener of this.settingsListeners) listener();
+		// The tab reads plugin.settings when it builds its definitions, so an open
+		// one would otherwise keep showing the values from before the sync.
+		this.settingTab.update();
 	}
 }
