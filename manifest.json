@@ -1,7 +1,7 @@
 {
 	"id": "project-tracker",
 	"name": "Project Tracker",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "1.13.0",
 	"description": "Track projects on kanban boards and filterable table views, inspired by Jira and GitHub Projects. Every project is a folder of plain markdown notes.",
 	"author": "dev-cadet",
