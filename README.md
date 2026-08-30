@@ -1,89 +1,38 @@
 # Project Tracker
 
-A Jira and GitHub inspired project tracker for Obsidian. Simplifying the complexity of a Jira workflow, while delivering the ease of a GitHub Project.
-
-Boards, backlogs, saved views and per-project workflows — built entirely out of ordinary markdown notes that stay readable, searchable, and yours.
-
----
+A Jira and GitHub inspired project tracker for Obsidian — the ease of a GitHub Project with extended features of a Jira workflow. Built entirely out of ordinary markdown notes.
 
 ## Design philosophy
 
-**Your vault is the database.** There is no sidecar store and no proprietary format. A project is a folder with a config note in it. A task is a note with frontmatter. Everything the plugin knows, it read out of your vault, and everything it writes, you can read back without it. Sync, Git, backups and every other plugin see exactly what Project Tracker sees.
-
-**Configuration travels with the project.** A project's statuses, labels, custom fields and saved views live in that project's own config note, under plain markdown headings. Move the folder, and the whole workflow moves with it. Share the folder, and you have shared the workflow.
-
-**Stock Obsidian, as far as it goes.** The interface is built from Obsidian's own components and design tokens, so it inherits your theme, your accent colour and your platform. It looks like part of the app on desktop, and like a mobile app on a phone — because it is using the same pieces the app is.
-
-**As much process as you want, and no more.** A project can be four statuses and a board. Or it can be seven statuses with automatic transitions, overdue warnings, story points and a filtered backlog. The complexity is opt-in, per project, and hidden behind an Advanced toggle until you ask for it.
-
-**Nothing happens behind your back.** Edits are written when you save them, timed status changes are a setting you turn on, and every change to a task is appended to a Change Log inside the note itself.
-
----
+- **Your vault is the database.** A project is a folder, a task is a note with frontmatter. No sidecar store, no proprietary format — everything the plugin knows, it read out of your vault.
+- **Configuration travels with the project.** Statuses, labels, fields and views live in that project's own config note. Move the folder and the workflow moves with it.
+- **Stock Obsidian.** Built from the app's own components and design tokens, so it inherits your theme and looks native on desktop and on a phone.
+- **Process is opt-in.** Four statuses and a board, or seven with automatic transitions and overdue warnings. Per project, behind an Advanced toggle.
+- **Nothing happens behind your back.** Timed transitions are a setting you turn on, and every task edit is logged inside the note.
 
 ## Features
 
-### Projects
+| | |
+|---|---|
+| **Projects** | One card each — colour, icon, live status counts. Drag to reorder and the sidebar dock follows. Rename or move a folder and the plugin keeps up. |
+| **Saved views** | As many per project as you like, each with its own layout, filters, sort, grouping and columns. |
+| **Board** | Columns are your statuses, in your order. Drag a card between them to change its status. |
+| **Table** | Group by status, label or nothing; sort on any field; pick the columns. Renders as cards on a phone. |
+| **Hidden statuses** | The Jira half — the board shows work in flight while the backlog and archive live in their own table views. |
+| **Filters** | Status, label, priority and dates, including *within the last 7 days* or *older than 30 days*, plus a quick text filter. |
+| **Statuses** | Named, coloured, ordered. Optional next-status flow, auto-advance after a duration, overdue warnings. Renaming one rewrites its key everywhere. |
+| **Tasks** | Status, priority, start and due dates, labels, parent task, description, notes — and a Change Log appended on every edit. |
+| **Custom fields** | Per project: text, list, number, checkbox, date or datetime, mirroring Obsidian's own property types, with optional defaults. |
+| **Docks** | The project list in a sidebar, and task columns pinned to one status of one project. |
+| **Templates** | Set a status template once and every new project starts from your workflow. |
 
-- One page listing every project, with its colour, icon, description and a live count for each status.
-- Drag to reorder the list — the ordering carries through to the sidebar dock automatically.
-- Each project gets its own accent colour and icon, applied through the whole interface when you are inside it.
-- Rename or move a project folder freely; the plugin follows it without a reload.
+## How it is stored
 
-### Boards and tables
+- A **project** is a folder with a config note tagged `ProjectConfig`. Its configuration sits under plain headings — *Project Title*, *Description*, *Status Config*, *Label Config*, *Board Config*, *Custom Fields* — so anything the settings screens write, you can write by hand.
+- A **task** is a note tagged `ProjectTask` with its fields as frontmatter properties, visible to the Properties panel, Bases, Dataview and plain search.
+- Opt a note out with `ProjectTrackerIgnore`, or document the format without indexing it using `ProjectConfigIgnore` / `ProjectTaskIgnore`.
 
-- **Saved views**, as many per project as you like, each with its own layout, filters, sort, grouping and columns.
-- **Board layout** — columns are your statuses in the order you set them. Drag a card between columns to change its status.
-- **Table layout** — group by status, by label, or not at all; sort on any field; choose exactly which columns appear.
-- **Hide statuses from a view.** This is the Jira half of the idea: the board shows the work in flight, while the backlog and the archive live in their own table views instead of cluttering the board.
-- **Filters** on status, label, priority, and dates — including relative windows like *within the last 7 days* or *older than 30 days*.
-- A quick text filter across the top of every view, and a footer telling you how many tasks the current filters are hiding.
-- On a phone, table views render as cards, still respecting the view's sort, grouping and column choices.
-
-### Statuses
-
-- Named, coloured and ordered. The order is the board.
-- **Next status** — define the natural flow through your workflow.
-- **Auto-advance** — move a task on once it has sat in a status longer than a duration you set.
-- **Overdue warnings** — flag a task whose start or due date has passed while it sits in a given status.
-- Renaming a status rewrites its key everywhere: on every task, and in every view filter that referred to it.
-- Set a **status template** once in settings, and every new project starts from your workflow instead of the plugin's defaults.
-
-### Tasks
-
-- Title, status, priority flag, start date, due date, labels, parent task, description and notes.
-- **Labels**, named and coloured, any number per task.
-- **Custom fields** per project — text, list, number, checkbox, date or datetime, mirroring Obsidian's own property types, with optional defaults seeded into new tasks.
-- Sub-tasks through a parent task link, shown on the card.
-- Every edit appends a dated entry to the task's **Change Log**, in the note.
-- Task notes are just notes. Write whatever else you want in them.
-
-### Docks
-
-- **Projects browser** — the project list, docked in a sidebar.
-- **Task column** — one status of one project, pinned where you can see it. Each column keeps its own project, status and card settings, so you can open several and watch different things at once.
-
-### Everything is a note
-
-- A project is a folder containing a config note tagged `ProjectConfig`.
-- A task is a note tagged `ProjectTask`, with its fields as frontmatter properties — so Obsidian's Properties panel, Bases, Dataview and plain search all see them.
-- Project configuration sits under plain headings in the config note: *Project Title*, *Description*, *Status Config*, *Label Config*, *Board Config*, *Custom Fields*. Anything the configuration screens write, you can write by hand.
-- Opt a note out with the `ProjectTrackerIgnore` tag, or document the format without indexing it using the `ProjectConfigIgnore` / `ProjectTaskIgnore` variants.
-
-### Settings
-
-- A default folder for new projects.
-- Open new tasks in the editor, or stay on the board.
-- Run timed status changes, or leave every transition manual.
-- Keep project links repaired automatically.
-- The status template used for every new project.
-
----
-
-## Requirements
-
-Obsidian 1.13.0 or later. Works on desktop and mobile.
-
----
+Requires Obsidian 1.13.0 or later. Works on desktop and mobile.
 
 ## Screenshots
 
