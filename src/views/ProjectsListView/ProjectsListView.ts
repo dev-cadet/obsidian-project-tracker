@@ -1,9 +1,16 @@
-import { ExtraButtonComponent, ItemView, Platform, WorkspaceLeaf, setIcon } from "obsidian";
-import type { Menu } from "obsidian";
+import {
+	ExtraButtonComponent,
+	ItemView,
+	Menu,
+	Platform,
+	WorkspaceLeaf,
+	setIcon,
+} from "obsidian";
 import type ProjectTrackerPlugin from "../../main";
 import type { Project } from "../../types";
 import { VIEW_TYPE_PROJECT_LIST } from "../../types";
 import { NewProjectModal } from "../../modals/NewProjectModal";
+import { ProjectConfigModal } from "../../modals/ProjectConfigModal";
 import {
 	DEFAULT_PROJECT_LIST_CONFIG,
 	ProjectListConfigModal,
@@ -177,7 +184,49 @@ export class ProjectsListView extends ItemView {
 			// corner of every tile is a permanent mark on a page whose point is
 			// that it is a clean wall of them.
 			sortable?.add(card);
+
+			if (!this.isDocked) this.addCardMenu(card, project);
 		}
+	}
+
+	/**
+	 * Right-click on a card, on the page.
+	 *
+	 * Both items are things the card cannot say on its own: the click already
+	 * means "open", and where it opens is a setting, so the override for a single
+	 * project has to live somewhere. Configuration is here for the same reason it
+	 * is on the board's own `...` menu — it belongs to the project, not the page.
+	 *
+	 * Sectioned like the plugin's other menu items, since an unsectioned one
+	 * lands in the unnamed bucket rather than where it was added.
+	 */
+	private addCardMenu(card: HTMLElement, project: Project): void {
+		card.addEventListener("contextmenu", (event) => {
+			event.preventDefault();
+
+			const menu = new Menu();
+			menu.addItem((item) =>
+				item
+					.setSection("action")
+					.setTitle("Open in new tab")
+					.setIcon("file-plus")
+					.onClick(() => {
+						void this.plugin.openProject(project.configFile.path, {
+							newTab: true,
+						});
+					})
+			);
+			menu.addItem((item) =>
+				item
+					.setSection("action")
+					.setTitle("Project configuration")
+					.setIcon(project.icon)
+					.onClick(() =>
+						new ProjectConfigModal(this.app, this.plugin, project).open()
+					)
+			);
+			menu.showAtMouseEvent(event);
+		});
 	}
 
 	/**

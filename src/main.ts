@@ -134,13 +134,20 @@ export default class ProjectTrackerPlugin extends Plugin {
 		return file ? this.store.getProjectForFile(file) : null;
 	}
 
-	async openProject(configPath: string): Promise<void> {
-		// Reuse only a leaf already showing *this* project. Falling back to any
-		// project leaf would replace whichever project happened to be open.
-		const existing = this.app.workspace
-			.getLeavesOfType(VIEW_TYPE_PROJECT)
-			.find((leaf) => (leaf.view as ProjectView).getState().projectPath === configPath);
-		const leaf: WorkspaceLeaf = existing ?? this.app.workspace.getLeaf("tab");
+	/**
+	 * Open a project's board.
+	 *
+	 * `newTab` forces a tab of its own whatever the setting says — the context
+	 * menu's escape hatch, and the reason this takes an option rather than
+	 * reading the setting at the call site.
+	 */
+	async openProject(
+		configPath: string,
+		options: { newTab?: boolean } = {}
+	): Promise<void> {
+		const leaf = options.newTab
+			? this.app.workspace.getLeaf("tab")
+			: this.projectLeaf(configPath);
 
 		await leaf.setViewState({
 			type: VIEW_TYPE_PROJECT,
@@ -148,6 +155,28 @@ export default class ProjectTrackerPlugin extends Plugin {
 			state: { projectPath: configPath },
 		});
 		await this.app.workspace.revealLeaf(leaf);
+	}
+
+	/** Which leaf a project should open into, given the setting. */
+	private projectLeaf(configPath: string): WorkspaceLeaf {
+		const leaves = this.app.workspace.getLeavesOfType(VIEW_TYPE_PROJECT);
+
+		// A leaf already on this project wins wherever it is, and whatever the
+		// setting says: opening what is already open should surface it rather
+		// than draw it a second time.
+		const same = leaves.find(
+			(leaf) => (leaf.view as ProjectView).getState().projectPath === configPath
+		);
+		if (same) return same;
+
+		if (!this.settings.replaceProjectPages) return this.app.workspace.getLeaf("tab");
+
+		// Any project page, but only in the main area. A board someone has pulled
+		// into a sidebar to keep beside their work is not a tab to be recycled.
+		const reusable = leaves.find(
+			(leaf) => leaf.getRoot() === this.app.workspace.rootSplit
+		);
+		return reusable ?? this.app.workspace.getLeaf("tab");
 	}
 
 	async openProjectList(): Promise<void> {

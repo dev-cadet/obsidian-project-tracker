@@ -11,6 +11,12 @@ export interface ProjectTrackerSettings {
 	autoStatusChange: boolean;
 	repairProjectLinks: boolean;
 	openTaskAfterCreate: boolean;
+	/**
+	 * Whether opening a project reuses the project page already in the main area
+	 * rather than adding a tab beside it. A project already open is revealed
+	 * either way — this only decides what happens to a *different* one.
+	 */
+	replaceProjectPages: boolean;
 	/** The Statuses section's advanced rows. A dialog preference, not a project one. */
 	showAdvancedStatuses: boolean;
 	/**
@@ -26,6 +32,7 @@ export const DEFAULT_SETTINGS: ProjectTrackerSettings = {
 	autoStatusChange: true,
 	repairProjectLinks: true,
 	openTaskAfterCreate: false,
+	replaceProjectPages: true,
 	showAdvancedStatuses: false,
 	projectOrder: [],
 	statusTemplate: serializeStatuses(defaultStatuses()),
@@ -103,6 +110,11 @@ export class ProjectTrackerSettingTab extends PluginSettingTab {
 				name: "Open new tasks in the editor",
 				desc: "Off keeps you on the board after creating a task.",
 				control: { type: "toggle", key: "openTaskAfterCreate" },
+			},
+			{
+				name: "Replace existing project pages",
+				desc: "Replace any open project page when opening another project.",
+				control: { type: "toggle", key: "replaceProjectPages" },
 			},
 			{
 				name: "Run timed status changes",
